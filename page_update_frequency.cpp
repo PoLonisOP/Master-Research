@@ -37,7 +37,7 @@ pair<vector<int>, vector<vector<int>>> cache_adj;
 int page_size, cache_amount;
 int cache_replacement_for_random = 0;
 int cache_replacement_for_adj = 0;
-int algo = 0;
+int algo = 0, skip_the_page = 0;
 
 void updateEdge_with_random(int, int, int);
 void updateEdge_with_adj(int, int, int);
@@ -115,8 +115,9 @@ void prt_cache_rand_data() {
     for (auto it: cache_rand) {
         for (int i = 0; i < it.size(); i++)
             cout << it[i] << " ";
-        cout << endl << endl;
+        cout << endl;
     }
+    cout << endl;
 }
 
 void prt_cache_adj_data() {
@@ -135,6 +136,7 @@ void prt_cache_adj_data() {
 void Graph::StorePageAdjMethod(int page_amount) {
     vector<int> outDegree = getOutDegree();   //get the vector of out degree
     int n = 0, tmp = 0;
+    bool flag_for_map = true;
     int Ldst;
     for (int i = 0; i < numVertices; i++) {
         if (outDegree[i] == 0) continue;
@@ -149,19 +151,28 @@ void Graph::StorePageAdjMethod(int page_amount) {
         }
         page_for_adj[n][tmp++] = outDegree[i];
         for (int dst: adj[i]) {
+            flag_for_map = true;
             if (tmp < page_size) {
-                page_for_adj[n][tmp++] = dst;
+                page_for_adj[n][tmp] = dst;
                 Ldst = dst;
+                if (tmp == page_size - 1) {
+                    adjSrcPageNumberMap[i].push_back(make_pair(Ldst, n));
+                    flag_for_map = false;
+                }
+                tmp++;
             }
             else if (n < page_amount) {
-                adjSrcPageNumberMap[i].push_back(make_pair(Ldst, n));
                 tmp = 0, n++;
                 page_for_adj[n][tmp++] = dst;
+                Ldst = dst;
             }
             else
                 assert(0);
         }
-        adjSrcPageNumberMap[i].push_back(make_pair(Ldst, n));
+        if (flag_for_map) {
+            adjSrcPageNumberMap[i].push_back(make_pair(Ldst, n));
+            flag_for_map = true;
+        }
     }
 }
 
@@ -192,7 +203,7 @@ void Graph::pageRank(int pow_iter, int cache_size) {
             for (int j = 0; j < numVertices; j++) {
                 double sum = 0;
                 for (int k = 0 ; k < rev_adj[j].size(); k++) {
-                    //updateEdge_with_random(rev_adj[j][k], j, cache_size);
+                    updateEdge_with_random(rev_adj[j][k], j, cache_size);
                     updateEdge_with_adj(rev_adj[j][k], j, cache_size);
                     sum += (init_vec.at(rev_adj[j].at(k)) * (1.0 / outDegree.at(rev_adj[j].at(k))));
                 }
@@ -279,8 +290,7 @@ void updateEdge_with_random(int src, int dst, int cache_size) {
                     cout << "Do cache_rand replacement!" << endl;
                     //using cache policy or not
                     //FIFO
-                    cache_replacement_for_random++;
-                    cache_rand[cache_replacement_for_random % cache_size].assign(it.begin(), it.end());
+                    cache_rand[cache_replacement_for_random++ % cache_size].assign(it.begin(), it.end());
                     cout << "After the cache replacement, current cache_rand data: " << endl;
                     //print the cache data
                     prt_cache_rand_data();
@@ -335,6 +345,8 @@ void updateEdge_with_adj(int src, int dst, int cache_size) {
             cout << "The src of current edge is in the cache_adj" << endl \
                 << "Do cache_adj replacement! (with only one page)" << endl;
             cout << "The page number of src: " << srcPageNum[src] << ", and the page number of dst: " << dstPageNum << endl;
+            if (cache_replacement_for_adj % cache_size == srcPageNum[src]) 
+                cache_replacement_for_adj++, skip_the_page++;
             cache_adj.first[cache_replacement_for_adj % cache_size] = dstPageNum;
             cache_adj.second[cache_replacement_for_adj++ % cache_size].assign(page_for_adj[dstPageNum].begin(), page_for_adj[dstPageNum].end());
             //print the cache data
@@ -344,15 +356,14 @@ void updateEdge_with_adj(int src, int dst, int cache_size) {
             cout << "The dst of current edge is in the cache_adj" << endl \
                 << "Do cache_adj replacement! (with only one page)" << endl;
             cout << "The page number of src: " << srcPageNum[src] << ", and the page number of dst: " << dstPageNum << endl;
+            if (cache_replacement_for_adj % cache_size == dstPageNum) 
+                cache_replacement_for_adj++, skip_the_page++;
             cache_adj.first[cache_replacement_for_adj % cache_size] = srcPageNum[src];
             cache_adj.second[cache_replacement_for_adj++ % cache_size].assign(page_for_adj[srcPageNum[src]].begin(), page_for_adj[srcPageNum[src]].end());
             //print the cache data
             prt_cache_adj_data();
             break;
         case 3: //otherwise, update the edge from memory to cache_adj
-            //pair<pair<int, int>, pair<int, int>> tmp = findAdjPageOffset(src, dst, 0);
-            //pair<int, int> src_offset = tmp.first;
-            //pair<int, int> dst_offset = tmp.second;
             if (srcPageNum[src] == dstPageNum) {
                 cout << "Find the edge in memory but not in cache_adj" << endl \
                     << "Do cache_adj replacement! (with only one page)" << endl;
@@ -533,6 +544,8 @@ int main() {
     
     graph.prt_pageRank();
 
+    for (int i = 0; i < skip_the_page; i++)
+        cache_replacement_for_adj--;
     cout << "Cache replacement times with randomly store the edge sequence: " << cache_replacement_for_random << endl;
     cout << "Cache replacement times with Adjacency list store the edge sequence: " << cache_replacement_for_adj << endl;
 

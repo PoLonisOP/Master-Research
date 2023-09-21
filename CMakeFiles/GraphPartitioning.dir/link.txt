@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/GraphPartitioning.dir/main.cpp.o -o GraphPartitioning  -lglog libSOURCE_FILES.a 

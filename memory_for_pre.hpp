@@ -34,9 +34,8 @@ public:
     uint32_t trace_read_cnt = 512; 
     uint32_t page_num = 0;
     uint32_t index_for_page_buffer = 0; // index of set number
-    uint32_t tmp_index_for_page_buffer = 0; // index of set number for tmp
     uint32_t page_buffer_size = cache_buffer * trace_read_cnt;
-    uint32_t cnt_for_page_buffer = 0;
+    uint32_t cnt_for_page_buffer = 0; //counting the edges togather for containing the page buffer size
     uint32_t tmp_cnt_for_page_buffer = 0;
     uint32_t cnt_for_page_buffer_combine = 0;
 
@@ -44,10 +43,7 @@ public:
     vector<set<uint32_t>> related_pages_map;
     vector<set<vid_t>> LPN_Boundary_vertices_set_map;
     vector<set<vid_t>> page_buffer;
-    vector<set<vid_t>> tmp_page_buffer;
-    vector<uint32_t> cnt_for_edges_in_page_buffer;
-
-    map<uint32_t, bool> sorted_page_buffer_check;
+    vector<uint32_t> cnt_for_edges_in_page_buffer; //counting the edges separate from different sets in page buffer
 
     void Set_trace_files();
     void Trace_write();

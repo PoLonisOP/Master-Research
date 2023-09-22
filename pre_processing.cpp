@@ -144,7 +144,7 @@ void PreprocessingPartitioner::batch_write(string opt_name){
         edges.resize(edges_per_batch);
         fin.read((char *) &edges[0], sizeof(edge_t) * edges_per_batch);
         part_degrees.assign(num_vertices, 0);
-        AdjList.assign(num_vertices, list<vid_t>());
+        AdjList.assign(num_vertices, set<vid_t>());
         page_set.assign(num_edges * mem.trace_read_cnt / mem.page_size, set<vid_t>());
         mem.LPN_Boundary_vertices_set_map.assign(num_edges * mem.trace_read_cnt / mem.page_size, set<vid_t>());
         LOG(INFO) << "current time: " << total_time.get_time();
@@ -156,7 +156,7 @@ void PreprocessingPartitioner::batch_write(string opt_name){
         }
         //prt_adjacencylist();
         if (opt_name == "polon") {
-            batch_DFS();
+            batch_DFS(i);
         } else {
             LOG(ERROR) << "no valid opt function";
         }
@@ -164,11 +164,13 @@ void PreprocessingPartitioner::batch_write(string opt_name){
     }
 }
 
-void PreprocessingPartitioner::batch_DFS() {
+void PreprocessingPartitioner::batch_DFS(uint32_t batches) {
     color = new vid_t[num_vertices];           // 配置記憶體位置
     discover = new vid_t[num_vertices];
     finish = new vid_t[num_vertices];
     predecessor = new vid_t[num_vertices];
+    uint32_t tmp_index_for_page_buffer = 0; // index of set number for tmp
+    vector<set<vid_t>> tmp_page_buffer;
 
     LOG(INFO) << "Batch DFS current time: " << total_time.get_time();
     int time = 0;                          // 初始化
@@ -179,10 +181,13 @@ void PreprocessingPartitioner::batch_DFS() {
         predecessor[i] = -1;
     }
 
-    vid_t minPosition = UINT32_MAX;
-    for (vid_t pos = 0; pos < part_degrees.size(); pos++) {
-        if(part_degrees[pos] < minPosition && part_degrees[pos]) {
+    vid_t minPosition, minni = UINT32_MAX;
+    for (vid_t pos = 0; pos < num_vertices; pos++) {
+        if (!part_degrees[pos]) {
+            continue;
+        } else if (part_degrees[pos] < minni) {
             minPosition = pos;
+            minni = part_degrees[pos];
         }
     }
 
@@ -190,69 +195,81 @@ void PreprocessingPartitioner::batch_DFS() {
     
     while (!flag) { // use flag to inspect all edges in AdjList is cleared
         int cnt_for_vectices_size = 0;
-        for (int k = 0; k < AdjList.size(); k++) { // 檢查所有Adj list中的edges all clear
+        for (int k = 0; k < AdjList.size() - 1; k++) { // 檢查所有Adj list中的edges all clear
             if (!AdjList[k].empty())
                 break;
             else
                 cnt_for_vectices_size++;
         }
-        if (cnt_for_vectices_size == AdjList.size())
+        if (minni == UINT32_MAX)
+            LOG(INFO) << "cnt_for_vertices_size: " << cnt_for_vectices_size;
+        if (cnt_for_vectices_size == AdjList.size() - 1) {
+            LOG(INFO) << "OWARI";
             flag = 1;
+        }
         else {
-            LOG(INFO) << "3";
+            // LOG(INFO) << "minPosition: " << minPosition;
             if (color[minPosition] == 0) {               // 若vertex不是白色, 則進行以該vertex作為起點之搜尋
                 DFSVisit(minPosition, time);
             }
-            LOG(INFO) << "page_num: " << mem.page_num;
-            LOG(INFO) << "cnt_for_visit_time: " << cnt_for_visit_time;
-            LOG(INFO) << "page_edge_cnt: " << page_edge_cnt;
-            if (cnt_for_visit_time != page_edge_cnt) { // page_buffer is not full, stored into the page_buffer
-                LOG(INFO) << "Store into page buffer: " << total_time.get_time();
-                mem.page_buffer.assign(mem.index_for_page_buffer, set<vid_t>());
+            // LOG(INFO) << "page_num: " << mem.page_num;
+            // LOG(INFO) << "cnt_for_visit_time: " << cnt_for_visit_time;
+            // LOG(INFO) << "page_edge_cnt: " << page_edge_cnt;
+            if (cnt_for_visit_time != page_edge_cnt) { // page is not full, stored into the page_buffer
+                //LOG(INFO) << "Store into page buffer";
+                mem.page_buffer.emplace_back(set<vid_t>());
                 if (cnt_for_visit_time + mem.cnt_for_page_buffer < mem.page_buffer_size) {
                     mem.page_buffer[mem.index_for_page_buffer++] = boundary_vertices_set;
                     boundary_vertices_set.clear();
                     mem.cnt_for_edges_in_page_buffer.push_back(cnt_for_visit_time);
                     mem.cnt_for_page_buffer += cnt_for_visit_time;
+                    //LOG(INFO) << "2";
                 } else { // flushed the page_buffer into pages, boundary set compare with each other
+                    //LOG(INFO) << "3";
                     mem.cnt_for_page_buffer = 0;
                     for (vid_t v_i = 0; v_i < num_vertices; v_i++) { // accumulate the related sets and sorted in descending order of vid, then flush
                         for (uint32_t index_i = 0; index_i < mem.index_for_page_buffer; index_i++) { // travese sets
-                            mem.sorted_page_buffer_check[index_i] = false;
-                            if (*mem.page_buffer[index_i].begin() == v_i && !mem.sorted_page_buffer_check[index_i]) {
-                                mem.sorted_page_buffer_check[index_i] = true;
-                                mem.tmp_page_buffer.insert(mem.tmp_page_buffer.begin() + mem.tmp_index_for_page_buffer, set<vid_t>());
-                                mem.tmp_page_buffer[mem.tmp_index_for_page_buffer++] = mem.page_buffer[index_i];
+                            if (*mem.page_buffer[index_i].begin() == v_i) {
+                                tmp_page_buffer.emplace_back(set<vid_t>());
+                                tmp_page_buffer[tmp_index_for_page_buffer++] = mem.page_buffer[index_i];
                             }
                         }
                     }
+                    //LOG(INFO) << "4";
+                    mem.index_for_page_buffer = 0;
                     mem.page_buffer.clear();
                     //merge all the set in a size of page for all page buffer
-                    for (uint32_t set_tmp_index = 0; set_tmp_index < mem.tmp_page_buffer.size(); set_tmp_index++) {
+                    for (uint32_t set_tmp_index = 0; set_tmp_index < tmp_page_buffer.size(); set_tmp_index++) {
                         if (mem.cnt_for_page_buffer_combine >= mem.page_size) {
                             mem.LPN_Boundary_vertices_set_map[mem.page_num++] = boundary_vertices_set;
                             boundary_vertices_set.clear();
+                            mem.cnt_for_page_buffer_combine = 0;
                         }
-                        boundary_vertices_set.insert(mem.tmp_page_buffer[set_tmp_index].begin(), mem.tmp_page_buffer[set_tmp_index].end());
+                        boundary_vertices_set.insert(tmp_page_buffer[set_tmp_index].begin(), tmp_page_buffer[set_tmp_index].end());
                         mem.cnt_for_page_buffer_combine += mem.cnt_for_edges_in_page_buffer[set_tmp_index];
                     }
+                    //LOG(INFO) << "5";
                     // place the redundant set into page buffer for next time the page buffer filled up
-                    mem.page_buffer.insert(mem.page_buffer.begin() + mem.index_for_page_buffer, set<vid_t>());
+                    mem.page_buffer.emplace_back(set<vid_t>());
                     mem.page_buffer[mem.index_for_page_buffer++] = boundary_vertices_set;
                     boundary_vertices_set.clear();
-                    mem.cnt_for_page_buffer = mem.cnt_for_page_buffer_combine; 
+                    mem.cnt_for_page_buffer = mem.cnt_for_page_buffer_combine;
+                    mem.cnt_for_page_buffer_combine = 0;
                 }
+            } else {
+                mem.LPN_Boundary_vertices_set_map[mem.page_num++] = boundary_vertices_set; // place the page
+                boundary_vertices_set.clear();
             }
-
-            minPosition = UINT32_MAX;
-            for (vid_t pos = 0; pos < part_degrees.size(); pos++) {
-                if(part_degrees[pos] < minPosition && part_degrees[pos]) {
+            minni = UINT32_MAX;
+            for (vid_t pos = 0; pos < num_vertices; pos++) {
+                if (!part_degrees[pos]) {
+                    continue;
+                } else if (part_degrees[pos] < minni) {
                     minPosition = pos;
+                    minni = part_degrees[pos];
                 }
             }
-            LOG(INFO) << "4";
-            mem.LPN_Boundary_vertices_set_map[mem.page_num++] = boundary_vertices_set; // place the page
-            boundary_vertices_set.clear();
+            // LOG(INFO) << "minni: " << minni;
             cnt_for_visit_time = 0;
             int time = 0;
             for (vid_t i = 0; i < num_vertices; i++) { 
@@ -263,11 +280,38 @@ void PreprocessingPartitioner::batch_DFS() {
             }
         }
     }
+    mem.cnt_for_page_buffer = 0;
+    // accumulate the related sets and sorted in descending order of vid, then flush
+    for (vid_t v_i = 0; v_i < num_vertices; v_i++) { 
+        for (uint32_t index_i = 0; index_i < mem.index_for_page_buffer; index_i++) { // travese sets
+            if (*mem.page_buffer[index_i].begin() == v_i) {
+                tmp_page_buffer.emplace_back(set<vid_t>());
+                tmp_page_buffer[tmp_index_for_page_buffer++] = mem.page_buffer[index_i];
+            }
+        }
+    }
+    mem.index_for_page_buffer = 0;
+    mem.page_buffer.clear();
+    //merge all the set in a size of page for all page buffer
+    for (uint32_t set_tmp_index = 0; set_tmp_index < tmp_page_buffer.size(); set_tmp_index++) {
+        if (mem.cnt_for_page_buffer_combine >= mem.page_size) {
+            mem.LPN_Boundary_vertices_set_map[mem.page_num++] = boundary_vertices_set;
+            boundary_vertices_set.clear();
+            mem.cnt_for_page_buffer_combine = 0;
+        }
+        boundary_vertices_set.insert(tmp_page_buffer[set_tmp_index].begin(), tmp_page_buffer[set_tmp_index].end());
+        mem.cnt_for_page_buffer_combine += mem.cnt_for_edges_in_page_buffer[set_tmp_index];
+    }
+    // place the redundant set into last page
+    mem.LPN_Boundary_vertices_set_map[mem.page_num++] = boundary_vertices_set;
+    boundary_vertices_set.clear();
 }
 
 void PreprocessingPartitioner::addEdge(vid_t s, vid_t d) {
-    AdjList[s].push_back(d);
-    AdjList[d].push_back(s);
+    if (AdjList[s].find(d) != AdjList[s].end()) 
+        return;
+    AdjList[s].emplace(d);
+    AdjList[d].emplace(s);
     part_degrees[s]++, part_degrees[d]++;
 }
 
@@ -284,31 +328,38 @@ void PreprocessingPartitioner::prt_adjacencylist() {
 }
 
 void PreprocessingPartitioner::DFSVisit(vid_t vertex, int &time) {   // 一旦有vertex被發現而且是白色, 便進入DFSVisit()
-    LOG(INFO) << "DFS Visit current time: " << total_time.get_time();
+    //LOG(INFO) << "DFS Visit current time: " << total_time.get_time();
     if (cnt_for_visit_time == page_edge_cnt) {
         boundary_vertices_set.insert(vertex);
         return;
     }
     color[vertex] = 1;                         // 把vertex塗成灰色
     discover[vertex] = ++time;                 // 更新vertex的discover時間
-    bool flag = 0;
-    for (list<vid_t>::iterator itr = AdjList[vertex].begin();   // for loop參數太長
-        itr != AdjList[vertex].end(); itr++) {                       // 分成兩段
+    for (set<vid_t>::iterator itr = AdjList[vertex].begin();   // for loop參數太長
+        itr != AdjList[vertex].end();) {                       // 分成兩段
+        // LOG(INFO) << "DFS Visit start";
+        // LOG(INFO) << "*itr: " << *itr;
+        // LOG(INFO) << "vertex: " << vertex;
         if (color[*itr] == 0) {                // 若搜尋到白色的vertex
+            //LOG(INFO) << "DFS Visit new v";
             predecessor[*itr] = vertex;        // 更新其predecessor
             page_set[mem.page_num].insert(vertex);                     // for total replication factor
             page_set[mem.page_num].insert(*itr);                       // for total replication factor
+            part_degrees[vertex]--, part_degrees[*itr]--;
+            vid_t next_vertex = *itr;
+            AdjList[*itr].erase(vertex);       // delete the edges in both direction
+            itr = AdjList[vertex].erase(itr);        // erase the edge in adj list, changed
             cnt_for_visit_time++;
-            DFSVisit(*itr, time);              // 立刻以其作為新的搜尋起點, 進入新的DFSVisit()
-            part_degrees[vertex]--, part_degrees[*itr]--;
-            AdjList[vertex].erase(itr--);        // erase the edge in adj list, changed
-            if (cnt_for_visit_time == page_edge_cnt) {
-                boundary_vertices_set.insert(vertex);
+            DFSVisit(next_vertex, time);              // 立刻以其作為新的搜尋起點, 進入新的DFSVisit()
+            itr = AdjList[vertex].begin();
+            if (cnt_for_visit_time == page_edge_cnt)
                 return;
-            }
+            //LOG(INFO) << "DFS Visit finish";
         } else {
+            //LOG(INFO) << "DFS Visit else";
             part_degrees[vertex]--, part_degrees[*itr]--;
-            AdjList[vertex].erase(itr--);        // erase the edge in adj list, changed
+            AdjList[*itr].erase(vertex);       // delete the edges in both direction
+            itr = AdjList[vertex].erase(itr);        // erase the edge in adj list, changed
             cnt_for_visit_time++;
             if (cnt_for_visit_time == page_edge_cnt) {
                 boundary_vertices_set.insert(vertex);

@@ -43,7 +43,7 @@ private:
     set<vid_t> remaining_pages;
     vector<vector<uint32_t>> partition;
 
-    vector<list<vid_t>> AdjList;
+    vector<set<vid_t>> AdjList;
     vid_t *color,             // 0:white, 1:gray, 2:black
           *predecessor,
           *discover,
@@ -55,7 +55,7 @@ protected:
     void DFS(vid_t Start);
     void DFSVisit(vid_t, int &);
     void batch_write(string opt_name);
-    void batch_DFS();
+    void batch_DFS(uint32_t);
     void batch_node_assignment(vector<edge_t> &edges);
     void addEdge(vid_t, vid_t);
     void prt_adjacencylist();

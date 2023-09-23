@@ -105,5 +105,9 @@ public:
         std::chrono::duration<double> diff = t2 - t1;
         total += diff.count();
     }
-    double get_time() { return total; }
+    double get_time() { 
+        std::chrono::duration<double> diff = t2 - t1;
+        total += diff.count();
+        return total; 
+    }
 };

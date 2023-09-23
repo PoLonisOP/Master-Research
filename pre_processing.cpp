@@ -23,23 +23,32 @@ PreprocessingPartitioner::PreprocessingPartitioner(string basefilename, string m
     degree_file.close();
 
     fill(mem.vid_for_page_range.begin(), mem.vid_for_page_range.end(), vector<vid_t>());
-    LOG(INFO) << "Constructor current time: " << total_time.get_time();
+    // LOG(INFO) << "constructor current time: " << total_time.get_time();
     num_batches = (filesize / ((std::size_t)memsize * mem.cache_buffer)) + 1;
     num_edges_per_batch = (num_edges / num_batches) + 1;
+    page_set.assign(1, set<vid_t>());
+    mem.LPN_Boundary_vertices_set_map.assign(1, set<vid_t>());
 }
 
 void PreprocessingPartitioner::resize_mapping() { // page number -> related pages for partitioning
+    // LOG(INFO) << "resize mapping time: " << total_time.get_time();
+    // LOG(INFO) << "mem.page_num: " << mem.page_num;
+    // LOG(INFO) << "mem.LPN_Boundary_vertices_set_map.size(): " << mem.LPN_Boundary_vertices_set_map.size();
+    mem.related_pages_map.assign(mem.page_num, set<uint32_t>());
     set<uint32_t> tmp_related_pages;
     for (uint32_t v_i = 0; v_i < num_vertices; v_i++) { 
         for (uint32_t page_i = 0; page_i < mem.page_num; page_i++) {
             if (*mem.LPN_Boundary_vertices_set_map[page_i].begin() == v_i) {
-                tmp_related_pages.insert(page_i);
+                // LOG(INFO) << "v_i: " << v_i;
+                // LOG(INFO) << "page_i: " << page_i;
+                tmp_related_pages.emplace(page_i);
             }
         }
         for (set<uint32_t>::iterator it = tmp_related_pages.begin(); it != tmp_related_pages.end(); it++) {
-            mem.related_pages_map[*it].insert(tmp_related_pages.begin(), tmp_related_pages.end());
+            mem.related_pages_map.at(*it).insert(tmp_related_pages.begin(), tmp_related_pages.end());
         }
     }
+    // LOG(INFO) << "resize mapping finish time: " << total_time.get_time();
 }
 
 void PreprocessingPartitioner::batch_read() {
@@ -131,7 +140,7 @@ void PreprocessingPartitioner::batch_write(string opt_name){
     fin.seekg(sizeof(num_vertices) + sizeof(num_edges), std::ios::beg);
     std::vector<edge_t> edges;
     auto num_edges_left = num_edges;
-    LOG(INFO) << "Batch write current time: " << total_time.get_time();
+    // LOG(INFO) << "Batch write current time: " << total_time.get_time();
 
     for (uint32_t i = 0; i < num_batches; i++) {
         auto edges_per_batch = num_edges_per_batch < num_edges_left ? num_edges_per_batch : num_edges_left;
@@ -145,9 +154,7 @@ void PreprocessingPartitioner::batch_write(string opt_name){
         fin.read((char *) &edges[0], sizeof(edge_t) * edges_per_batch);
         part_degrees.assign(num_vertices, 0);
         AdjList.assign(num_vertices, set<vid_t>());
-        page_set.assign(num_edges * mem.trace_read_cnt / mem.page_size, set<vid_t>());
-        mem.LPN_Boundary_vertices_set_map.assign(num_edges * mem.trace_read_cnt / mem.page_size, set<vid_t>());
-        LOG(INFO) << "current time: " << total_time.get_time();
+        // LOG(INFO) << "current time: " << total_time.get_time();
         LOG(INFO) << "edges.size(): " << edges.size();
         //create partial adj list
         for(auto &e : edges) {
@@ -172,7 +179,7 @@ void PreprocessingPartitioner::batch_DFS(uint32_t batches) {
     uint32_t tmp_index_for_page_buffer = 0; // index of set number for tmp
     vector<set<vid_t>> tmp_page_buffer;
 
-    LOG(INFO) << "Batch DFS current time: " << total_time.get_time();
+    // LOG(INFO) << "Batch DFS current time: " << total_time.get_time();
     int time = 0;                          // 初始化
     for (vid_t i = 0; i < num_vertices; i++) { 
         color[i] = 0;
@@ -201,8 +208,6 @@ void PreprocessingPartitioner::batch_DFS(uint32_t batches) {
             else
                 cnt_for_vectices_size++;
         }
-        if (minni == UINT32_MAX)
-            LOG(INFO) << "cnt_for_vertices_size: " << cnt_for_vectices_size;
         if (cnt_for_vectices_size == AdjList.size() - 1) {
             LOG(INFO) << "OWARI";
             flag = 1;
@@ -243,6 +248,8 @@ void PreprocessingPartitioner::batch_DFS(uint32_t batches) {
                         if (mem.cnt_for_page_buffer_combine >= mem.page_size) {
                             mem.LPN_Boundary_vertices_set_map[mem.page_num++] = boundary_vertices_set;
                             boundary_vertices_set.clear();
+                            page_set.emplace_back(set<vid_t>());
+                            mem.LPN_Boundary_vertices_set_map.emplace_back(set<vid_t>());
                             mem.cnt_for_page_buffer_combine = 0;
                         }
                         boundary_vertices_set.insert(tmp_page_buffer[set_tmp_index].begin(), tmp_page_buffer[set_tmp_index].end());
@@ -259,6 +266,8 @@ void PreprocessingPartitioner::batch_DFS(uint32_t batches) {
             } else {
                 mem.LPN_Boundary_vertices_set_map[mem.page_num++] = boundary_vertices_set; // place the page
                 boundary_vertices_set.clear();
+                page_set.emplace_back(set<vid_t>());
+                mem.LPN_Boundary_vertices_set_map.emplace_back(set<vid_t>());
             }
             minni = UINT32_MAX;
             for (vid_t pos = 0; pos < num_vertices; pos++) {
@@ -297,6 +306,8 @@ void PreprocessingPartitioner::batch_DFS(uint32_t batches) {
         if (mem.cnt_for_page_buffer_combine >= mem.page_size) {
             mem.LPN_Boundary_vertices_set_map[mem.page_num++] = boundary_vertices_set;
             boundary_vertices_set.clear();
+            page_set.emplace_back(set<vid_t>());
+            mem.LPN_Boundary_vertices_set_map.emplace_back(set<vid_t>());
             mem.cnt_for_page_buffer_combine = 0;
         }
         boundary_vertices_set.insert(tmp_page_buffer[set_tmp_index].begin(), tmp_page_buffer[set_tmp_index].end());
@@ -305,6 +316,8 @@ void PreprocessingPartitioner::batch_DFS(uint32_t batches) {
     // place the redundant set into last page
     mem.LPN_Boundary_vertices_set_map[mem.page_num++] = boundary_vertices_set;
     boundary_vertices_set.clear();
+    page_set.emplace_back(set<vid_t>());
+    mem.LPN_Boundary_vertices_set_map.emplace_back(set<vid_t>());
 }
 
 void PreprocessingPartitioner::addEdge(vid_t s, vid_t d) {
@@ -343,8 +356,8 @@ void PreprocessingPartitioner::DFSVisit(vid_t vertex, int &time) {   // 一旦�
         if (color[*itr] == 0) {                // 若搜尋到白色的vertex
             //LOG(INFO) << "DFS Visit new v";
             predecessor[*itr] = vertex;        // 更新其predecessor
-            page_set[mem.page_num].insert(vertex);                     // for total replication factor
-            page_set[mem.page_num].insert(*itr);                       // for total replication factor
+            page_set.at(mem.page_num).insert(vertex);                     // for total replication factor
+            page_set.at(mem.page_num).insert(*itr);                       // for total replication factor
             part_degrees[vertex]--, part_degrees[*itr]--;
             vid_t next_vertex = *itr;
             AdjList[*itr].erase(vertex);       // delete the edges in both direction

@@ -36,7 +36,6 @@ NePartitioner::NePartitioner(std::string basefilename, std::string method, int p
     master.assign(num_vertices, -1);
     dis.param(std::uniform_int_distribution<vid_t>::param_type(0, num_vertices - 1));
 
-
     edges.resize(num_edges);
     fin.read((char *) &edges[0], sizeof(edge_t) * num_edges);
     adj_out.build(edges);
@@ -128,7 +127,7 @@ void NePartitioner::split() {
             if (!min_heap.get_min(d, vid)) {
                 //从v-c中随机选择
                 if (!get_free_vertex(vid)) {
-//          LOG(INFO) << "partition " << bucket << " stop: no free vertices";
+                //LOG(INFO) << "partition " << bucket << " stop: no free vertices";
                     break;
                 }
                 d = adj_out[vid].size() + adj_in[vid].size();

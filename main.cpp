@@ -21,7 +21,7 @@ using namespace std;
 int main() {
     int pnum = 5;
     int memsize = 4096;
-    string method = "pre";
+    string method = "ne";
     double lambda = 1.1;
     double balance_ratio = 1.05;
     string edgename = "/home/polon/Desktop/GraphPartitioners-main/Datasets/Email-EuAll.txt";
@@ -44,7 +44,7 @@ int main() {
     if (method=="ne")
         partitioner = new NePartitioner(edgename, method, pnum);
     else if (method=="pre")
-        partitioner = new PreprocessingPartitioner(edgename, method, pnum, memsize);
+        partitioner = new PreprocessingPartitioner(edgename, method, (uint32_t)pnum, memsize);
     else if (method=="dbh")
         partitioner = new DbhPartitioner(edgename, method, pnum, memsize, shuffle);
     else if (method=="hdrf")

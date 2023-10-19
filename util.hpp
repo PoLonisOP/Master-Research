@@ -69,7 +69,7 @@ inline std::string partitioned_name(const std::string &basefilename,const std::s
     return ss.str();
 }
 //change
-inline std::string pagesave_name(const std::string &basefilename,const std::string &method, int pnum)
+inline std::string pagesave_name(const std::string &basefilename,const std::string &method, uint32_t pnum)
 {
     std::string new_basefilename=change2tmpdir(basefilename);
     std::stringstream ss;

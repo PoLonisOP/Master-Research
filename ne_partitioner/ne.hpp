@@ -94,6 +94,47 @@ private:
         occupied[bucket]++;
         degrees[from]--;
         degrees[to]--;
+        // changed
+        // ADJ page replacememt computing
+        adj_out.flag_in_memory = 0;
+        if (adj_out.ADJ_lru_pointer > 128)
+            for (size_t index: adj_out.ADJ_lru_for_working_memory)
+                index -= 128;
+
+        // check the page is in the working memory or not
+        for (auto it = adj_out.ADJ_working_memory.begin(); it < adj_out.ADJ_working_memory.end(); it++) {
+            // cout << "it->first: " << it->first << endl;
+            if (it->first == from) {
+                adj_out.memory_index = it - adj_out.ADJ_working_memory.begin();
+                adj_out.flag_in_memory = 1;
+            }
+        }
+        if (!adj_out.flag_in_memory) {
+            for (auto ii = 0; ii < adj_out.src_page_num_map[from].size(); ii++) {
+                adj_out.min = min_element(adj_out.ADJ_lru_for_working_memory.begin(), adj_out.ADJ_lru_for_working_memory.end()) - adj_out.ADJ_lru_for_working_memory.begin();
+                adj_out.ADJ_working_memory[adj_out.min] = std::make_pair(from, adj_out.src_page_num_map[from].at(ii));
+                adj_out.ADJ_lru_for_working_memory[adj_out.min] = ++adj_out.ADJ_lru_pointer;
+                adj_out.Trace_R();
+                adj_out.Trace_W();
+            }
+        }
+        // CSR page replacement computing
+        for (size_t pr = adj_out.CSR_vertex_map[from] / adj_out.CSR_trace_cnt; pr < adj_out.CSR_vertex_map[from + 1] / adj_out.CSR_trace_cnt + 1; pr++) {
+            for (auto it = 0; it < adj_out.CSR_working_memory.size(); it++) {
+                // check if the first page of src is in the working memory or not
+                if (adj_out.CSR_working_memory[it] == pr) {
+                    adj_out.CSR_lru_for_working_memory[it] = ++adj_out.CSR_lru_pointer;
+                    adj_out.flag_in_memory = 1;
+                }
+            }
+            if (!adj_out.flag_in_memory) {
+                adj_out.min = min_element(adj_out.CSR_lru_for_working_memory.begin(), adj_out.CSR_lru_for_working_memory.end()) - adj_out.CSR_lru_for_working_memory.begin();
+                adj_out.CSR_working_memory[adj_out.min] = pr;
+                adj_out.CSR_lru_for_working_memory[adj_out.min] = ++adj_out.CSR_lru_pointer;
+                adj_out.Trace_W2();
+                adj_out.Trace_R2();
+            }
+        }
     }
 
     void add_boundary(vid_t vid)
@@ -119,8 +160,6 @@ private:
                         //u属于c
                         assign_edge(bucket, direction ? vid : u,
                                     direction ? u : vid);
-                        //changed
-                        adj_out.Trace_read();
                         min_heap.decrease_key(vid);
                         edges[neighbors[i].v].remove();
                         std::swap(neighbors[i], neighbors.back());
@@ -130,8 +169,6 @@ private:
                         //u属于s-c
                         assign_edge(bucket, direction ? vid : u,
                                     direction ? u : vid);
-                        //changed
-                        adj_out.Trace_read();
                         min_heap.decrease_key(vid);
                         min_heap.decrease_key(u);
                         edges[neighbors[i].v].remove();

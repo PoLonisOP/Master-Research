@@ -9,6 +9,7 @@
 #include <sys/stat.h>
 #include <sys/mman.h>
 #include <unistd.h>
+#include <queue>
 
 //#include "dense_bitset.hpp"
 #include "util.hpp"
@@ -27,17 +28,18 @@ private:
     size_t num_edges;
     size_t filesize;
     uint32_t page_edge_cnt;
-    int p;
-    int least_pages_per_partition;
+    uint32_t p;
+    uint32_t least_pages_per_partition;
     ifstream fin;
     uint32_t num_batches;
     uint32_t num_edges_per_batch;
+    uint32_t cycle_edges = 0;
 
     Memory_Pre mem;
 
     vector<vid_t> degrees;
     vector<vid_t> part_degrees;
-    vector<size_t> occupied;
+    vector<uint32_t> occupied;
     vector<set<vid_t>> page_set;
     set<vid_t> boundary_vertices_set;
     set<vid_t> remaining_pages;
@@ -52,7 +54,6 @@ private:
     ofstream partition_fout;
 
 protected:
-    void DFS(vid_t Start);
     void DFSVisit(vid_t, int &);
     void batch_write(string opt_name);
     void batch_DFS(uint32_t);
@@ -62,10 +63,11 @@ protected:
     void resize_mapping();
     void batch_read();
     size_t count_mirrors();
+    void BFS_partition(vid_t, uint32_t, uint32_t);
 public:
     uint32_t cnt_for_visit_time = 0;
 
-    PreprocessingPartitioner(string basefilename, string method, int pnum, int memsize);
+    PreprocessingPartitioner(string basefilename, string method, uint32_t pnum, int memsize);
 
     void split();
 };

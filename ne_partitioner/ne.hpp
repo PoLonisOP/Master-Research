@@ -39,6 +39,8 @@ private:
 
     std::vector<edge_t> edges;
     graph_t adj_out, adj_in;
+    // changed
+    Storage mem;
     MinHeap<vid_t, vid_t> min_heap;
     //每个分组当前的数量
     std::vector<size_t> occupied;
@@ -96,45 +98,45 @@ private:
         degrees[to]--;
         // changed
         // ADJ page replacememt computing
-        adj_out.flag_in_memory = 0;
-        if (adj_out.ADJ_lru_pointer > 128)
-            for (size_t index: adj_out.ADJ_lru_for_working_memory)
+        mem.flag_in_memory = 0;
+        if (mem.ADJ_lru_pointer > 128)
+            for (size_t index: mem.ADJ_lru_for_working_memory)
                 index -= 128;
 
         // check the page is in the working memory or not
-        for (auto it = adj_out.ADJ_working_memory.begin(); it < adj_out.ADJ_working_memory.end(); it++) {
+        for (auto it = mem.ADJ_working_memory.begin(); it < mem.ADJ_working_memory.end(); it++) {
             // cout << "it->first: " << it->first << endl;
             if (it->first == from) {
-                adj_out.memory_index = it - adj_out.ADJ_working_memory.begin();
-                adj_out.flag_in_memory = 1;
+                mem.memory_index = it - mem.ADJ_working_memory.begin();
+                mem.flag_in_memory = 1;
             }
         }
-        if (!adj_out.flag_in_memory) {
-            for (auto ii = 0; ii < adj_out.src_page_num_map[from].size(); ii++) {
-                adj_out.min = min_element(adj_out.ADJ_lru_for_working_memory.begin(), adj_out.ADJ_lru_for_working_memory.end()) - adj_out.ADJ_lru_for_working_memory.begin();
-                adj_out.ADJ_working_memory[adj_out.min] = std::make_pair(from, adj_out.src_page_num_map[from].at(ii));
-                adj_out.ADJ_lru_for_working_memory[adj_out.min] = ++adj_out.ADJ_lru_pointer;
-                adj_out.Trace_R();
-                adj_out.Trace_W();
+        if (!mem.flag_in_memory) {
+            for (auto ii = 0; ii < mem.src_page_num_map[from].size(); ii++) {
+                mem.min = min_element(mem.ADJ_lru_for_working_memory.begin(), mem.ADJ_lru_for_working_memory.end()) - mem.ADJ_lru_for_working_memory.begin();
+                mem.ADJ_working_memory[mem.min] = std::make_pair(from, mem.src_page_num_map[from].at(ii));
+                mem.ADJ_lru_for_working_memory[mem.min] = ++mem.ADJ_lru_pointer;
+                mem.Trace_R();
+                mem.Trace_W();
             }
         }
         // CSR page replacement computing
-        for (size_t pr = adj_out.CSR_vertex_map[from] / adj_out.CSR_trace_cnt; pr < adj_out.CSR_vertex_map[from + 1] / adj_out.CSR_trace_cnt + 1; pr++) {
-            for (auto it = 0; it < adj_out.CSR_working_memory.size(); it++) {
-                // check if the first page of src is in the working memory or not
-                if (adj_out.CSR_working_memory[it] == pr) {
-                    adj_out.CSR_lru_for_working_memory[it] = ++adj_out.CSR_lru_pointer;
-                    adj_out.flag_in_memory = 1;
-                }
-            }
-            if (!adj_out.flag_in_memory) {
-                adj_out.min = min_element(adj_out.CSR_lru_for_working_memory.begin(), adj_out.CSR_lru_for_working_memory.end()) - adj_out.CSR_lru_for_working_memory.begin();
-                adj_out.CSR_working_memory[adj_out.min] = pr;
-                adj_out.CSR_lru_for_working_memory[adj_out.min] = ++adj_out.CSR_lru_pointer;
-                adj_out.Trace_W2();
-                adj_out.Trace_R2();
-            }
-        }
+        // for (size_t pr = mem.CSR_vertex_map[from] / mem.CSR_trace_cnt; pr < mem.CSR_vertex_map[from + 1] / mem.CSR_trace_cnt + 1; pr++) {
+        //     for (auto it = 0; it < mem.CSR_working_memory.size(); it++) {
+        //         // check if the first page of src is in the working memory or not
+        //         if (mem.CSR_working_memory[it] == pr) {
+        //             mem.CSR_lru_for_working_memory[it] = ++mem.CSR_lru_pointer;
+        //             mem.flag_in_memory = 1;
+        //         }
+        //     }
+        //     if (!mem.flag_in_memory) {
+        //         mem.min = min_element(mem.CSR_lru_for_working_memory.begin(), mem.CSR_lru_for_working_memory.end()) - mem.CSR_lru_for_working_memory.begin();
+        //         mem.CSR_working_memory[mem.min] = pr;
+        //         mem.CSR_lru_for_working_memory[mem.min] = ++mem.CSR_lru_pointer;
+        //         mem.Trace_W2();
+        //         mem.Trace_R2();
+        //     }
+        // }
     }
 
     void add_boundary(vid_t vid)

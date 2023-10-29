@@ -38,8 +38,8 @@ NePartitioner::NePartitioner(std::string basefilename, std::string method, int p
 
     edges.resize(num_edges);
     fin.read((char *) &edges[0], sizeof(edge_t) * num_edges);
-    adj_out.build(edges);
-    adj_in.build_reverse(edges);
+    adj_out.build(edges, mem);
+    adj_in.build_reverse(edges, mem);
 
     degrees.resize(num_vertices);
     std::ifstream degree_file(degree_name(basefilename), std::ios::binary);

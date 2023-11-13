@@ -12,6 +12,7 @@ add_library(SOURCE_FILES
         memory.cpp
         memory_for_pre.cpp
         pre_processing.cpp
+        storage.cpp
         streaming_vp/ldg.cpp
         streaming_vp/fennel.cpp)
 add_executable(GraphPartitioning main.cpp)

@@ -17,6 +17,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/SOURCE_FILES.dir/ne_partitioner/ne.cpp.o.d"
   "CMakeFiles/SOURCE_FILES.dir/pre_processing.cpp.o"
   "CMakeFiles/SOURCE_FILES.dir/pre_processing.cpp.o.d"
+  "CMakeFiles/SOURCE_FILES.dir/storage.cpp.o"
+  "CMakeFiles/SOURCE_FILES.dir/storage.cpp.o.d"
   "CMakeFiles/SOURCE_FILES.dir/streaming_vp/fennel.cpp.o"
   "CMakeFiles/SOURCE_FILES.dir/streaming_vp/fennel.cpp.o.d"
   "CMakeFiles/SOURCE_FILES.dir/streaming_vp/ldg.cpp.o"

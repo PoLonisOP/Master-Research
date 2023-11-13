@@ -1,8 +1,7 @@
 CMakeFiles/SOURCE_FILES.dir/memory.cpp.o: \
- /home/polon/Desktop/GraphPartitioners-main/memory.cpp \
+ /home/polon/Desktop/Master-Research/memory.cpp \
  /usr/include/stdc-predef.h \
- /home/polon/Desktop/GraphPartitioners-main/memory.hpp \
- /usr/include/c++/9/string \
+ /home/polon/Desktop/Master-Research/memory.hpp /usr/include/c++/9/string \
  /usr/include/x86_64-linux-gnu/c++/9/bits/c++config.h \
  /usr/include/x86_64-linux-gnu/c++/9/bits/os_defines.h \
  /usr/include/features.h /usr/include/x86_64-linux-gnu/sys/cdefs.h \
@@ -157,10 +156,9 @@ CMakeFiles/SOURCE_FILES.dir/memory.cpp.o: \
  /usr/include/c++/9/bits/invoke.h /usr/include/c++/9/bits/stl_multimap.h \
  /usr/include/c++/9/bits/erase_if.h /usr/include/c++/9/set \
  /usr/include/c++/9/bits/stl_set.h /usr/include/c++/9/bits/stl_multiset.h \
- /home/polon/Desktop/GraphPartitioners-main/util.hpp \
- /usr/include/c++/9/chrono /usr/include/c++/9/ratio \
- /usr/include/c++/9/limits /usr/include/c++/9/ctime \
- /usr/include/c++/9/bits/parse_numbers.h \
+ /home/polon/Desktop/Master-Research/util.hpp /usr/include/c++/9/chrono \
+ /usr/include/c++/9/ratio /usr/include/c++/9/limits \
+ /usr/include/c++/9/ctime /usr/include/c++/9/bits/parse_numbers.h \
  /usr/include/x86_64-linux-gnu/sys/stat.h \
  /usr/include/x86_64-linux-gnu/bits/stat.h \
  /usr/include/x86_64-linux-gnu/bits/statx.h /usr/include/linux/stat.h \

@@ -1,8 +1,7 @@
-CMakeFiles/SOURCE_FILES.dir/ne_partitioner/graph.cpp.o: \
- /home/polon/Desktop/Master-Research/ne_partitioner/graph.cpp \
+CMakeFiles/SOURCE_FILES.dir/storage.cpp.o: \
+ /home/polon/Desktop/Master-Research/storage.cpp \
  /usr/include/stdc-predef.h \
- /home/polon/Desktop/Master-Research/ne_partitioner/graph.hpp \
- /home/polon/Desktop/Master-Research/ne_partitioner/../storage.hpp \
+ /home/polon/Desktop/Master-Research/storage.hpp \
  /usr/include/c++/9/vector /usr/include/c++/9/bits/stl_algobase.h \
  /usr/include/x86_64-linux-gnu/c++/9/bits/c++config.h \
  /usr/include/x86_64-linux-gnu/c++/9/bits/os_defines.h \
@@ -221,16 +220,16 @@ CMakeFiles/SOURCE_FILES.dir/ne_partitioner/graph.cpp.o: \
  /usr/include/c++/9/bits/basic_ios.tcc \
  /usr/include/c++/9/bits/ostream.tcc /usr/include/c++/9/istream \
  /usr/include/c++/9/bits/istream.tcc \
- /home/polon/Desktop/Master-Research/ne_partitioner/../memory.hpp \
+ /home/polon/Desktop/Master-Research/memory.hpp \
  /usr/include/c++/9/sstream /usr/include/c++/9/bits/sstream.tcc \
  /usr/include/c++/9/fstream /usr/include/c++/9/bits/codecvt.h \
  /usr/include/x86_64-linux-gnu/c++/9/bits/basic_file.h \
  /usr/include/x86_64-linux-gnu/c++/9/bits/c++io.h \
  /usr/include/c++/9/bits/fstream.tcc /usr/include/c++/9/set \
  /usr/include/c++/9/bits/stl_set.h /usr/include/c++/9/bits/stl_multiset.h \
- /home/polon/Desktop/Master-Research/ne_partitioner/../util.hpp \
- /usr/include/c++/9/chrono /usr/include/c++/9/ratio \
- /usr/include/c++/9/ctime /usr/include/c++/9/bits/parse_numbers.h \
+ /home/polon/Desktop/Master-Research/util.hpp /usr/include/c++/9/chrono \
+ /usr/include/c++/9/ratio /usr/include/c++/9/ctime \
+ /usr/include/c++/9/bits/parse_numbers.h \
  /usr/include/x86_64-linux-gnu/sys/stat.h \
  /usr/include/x86_64-linux-gnu/bits/stat.h \
  /usr/include/x86_64-linux-gnu/bits/statx.h /usr/include/linux/stat.h \

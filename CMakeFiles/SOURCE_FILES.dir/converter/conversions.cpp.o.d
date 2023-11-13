@@ -1,5 +1,5 @@
 CMakeFiles/SOURCE_FILES.dir/converter/conversions.cpp.o: \
- /home/polon/Desktop/GraphPartitioners-main/converter/conversions.cpp \
+ /home/polon/Desktop/Master-Research/converter/conversions.cpp \
  /usr/include/stdc-predef.h /usr/include/string.h \
  /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
  /usr/include/features.h /usr/include/x86_64-linux-gnu/sys/cdefs.h \
@@ -11,7 +11,7 @@ CMakeFiles/SOURCE_FILES.dir/converter/conversions.cpp.o: \
  /usr/include/x86_64-linux-gnu/bits/types/locale_t.h \
  /usr/include/x86_64-linux-gnu/bits/types/__locale_t.h \
  /usr/include/strings.h \
- /home/polon/Desktop/GraphPartitioners-main/converter/conversions.hpp \
+ /home/polon/Desktop/Master-Research/converter/conversions.hpp \
  /usr/include/c++/9/string \
  /usr/include/x86_64-linux-gnu/c++/9/bits/c++config.h \
  /usr/include/x86_64-linux-gnu/c++/9/bits/os_defines.h \
@@ -500,7 +500,7 @@ CMakeFiles/SOURCE_FILES.dir/converter/conversions.cpp.o: \
  /usr/local/include/gflags/gflags.h \
  /usr/local/include/gflags/gflags_declare.h \
  /usr/local/include/gflags/gflags_gflags.h \
- /home/polon/Desktop/GraphPartitioners-main/converter/../util.hpp \
+ /home/polon/Desktop/Master-Research/converter/../util.hpp \
  /usr/include/c++/9/chrono /usr/include/c++/9/ratio \
  /usr/include/c++/9/ctime /usr/include/c++/9/bits/parse_numbers.h \
  /usr/include/x86_64-linux-gnu/sys/stat.h \

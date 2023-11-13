@@ -1,4 +1,4 @@
-/home/polon/Desktop/GraphPartitioners-main/CMakeFiles/SOURCE_FILES.dir
-/home/polon/Desktop/GraphPartitioners-main/CMakeFiles/GraphPartitioning.dir
-/home/polon/Desktop/GraphPartitioners-main/CMakeFiles/edit_cache.dir
-/home/polon/Desktop/GraphPartitioners-main/CMakeFiles/rebuild_cache.dir
+/home/polon/Desktop/Master-Research/CMakeFiles/SOURCE_FILES.dir
+/home/polon/Desktop/Master-Research/CMakeFiles/GraphPartitioning.dir
+/home/polon/Desktop/Master-Research/CMakeFiles/edit_cache.dir
+/home/polon/Desktop/Master-Research/CMakeFiles/rebuild_cache.dir

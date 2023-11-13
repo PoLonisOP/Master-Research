@@ -1,8 +1,6 @@
 CMakeFiles/SOURCE_FILES.dir/hdrf.cpp.o: \
- /home/polon/Desktop/GraphPartitioners-main/hdrf.cpp \
- /usr/include/stdc-predef.h \
- /home/polon/Desktop/GraphPartitioners-main/hdrf.hpp \
- /usr/include/c++/9/string \
+ /home/polon/Desktop/Master-Research/hdrf.cpp /usr/include/stdc-predef.h \
+ /home/polon/Desktop/Master-Research/hdrf.hpp /usr/include/c++/9/string \
  /usr/include/x86_64-linux-gnu/c++/9/bits/c++config.h \
  /usr/include/x86_64-linux-gnu/c++/9/bits/os_defines.h \
  /usr/include/features.h /usr/include/x86_64-linux-gnu/sys/cdefs.h \
@@ -149,13 +147,12 @@ CMakeFiles/SOURCE_FILES.dir/hdrf.cpp.o: \
  /usr/include/c++/9/bits/stl_vector.h \
  /usr/include/c++/9/bits/stl_bvector.h /usr/include/c++/9/bits/vector.tcc \
  /usr/include/c++/9/bitset \
- /home/polon/Desktop/GraphPartitioners-main/dense_bitset.hpp \
+ /home/polon/Desktop/Master-Research/dense_bitset.hpp \
  /usr/include/c++/9/cstring /usr/include/string.h /usr/include/strings.h \
- /home/polon/Desktop/GraphPartitioners-main/util.hpp \
- /usr/include/c++/9/utility /usr/include/c++/9/bits/stl_relops.h \
- /usr/include/c++/9/chrono /usr/include/c++/9/ratio \
- /usr/include/c++/9/limits /usr/include/c++/9/ctime \
- /usr/include/c++/9/bits/parse_numbers.h \
+ /home/polon/Desktop/Master-Research/util.hpp /usr/include/c++/9/utility \
+ /usr/include/c++/9/bits/stl_relops.h /usr/include/c++/9/chrono \
+ /usr/include/c++/9/ratio /usr/include/c++/9/limits \
+ /usr/include/c++/9/ctime /usr/include/c++/9/bits/parse_numbers.h \
  /usr/include/x86_64-linux-gnu/sys/stat.h \
  /usr/include/x86_64-linux-gnu/bits/stat.h \
  /usr/include/x86_64-linux-gnu/bits/statx.h /usr/include/linux/stat.h \
@@ -183,5 +180,5 @@ CMakeFiles/SOURCE_FILES.dir/hdrf.cpp.o: \
  /usr/include/c++/9/bits/atomic_lockfree_defines.h \
  /usr/local/include/glog/log_severity.h \
  /usr/local/include/glog/vlog_is_on.h \
- /home/polon/Desktop/GraphPartitioners-main/partitioner.hpp \
+ /home/polon/Desktop/Master-Research/partitioner.hpp \
  /usr/include/c++/9/iostream

@@ -1,5 +1,5 @@
 CMakeFiles/SOURCE_FILES.dir/converter/shuffler.cpp.o: \
- /home/polon/Desktop/GraphPartitioners-main/converter/shuffler.cpp \
+ /home/polon/Desktop/Master-Research/converter/shuffler.cpp \
  /usr/include/stdc-predef.h /usr/include/c++/9/utility \
  /usr/include/x86_64-linux-gnu/c++/9/bits/c++config.h \
  /usr/include/x86_64-linux-gnu/c++/9/bits/os_defines.h \
@@ -147,7 +147,7 @@ CMakeFiles/SOURCE_FILES.dir/converter/shuffler.cpp.o: \
  /usr/include/x86_64-linux-gnu/c++/9/bits/basic_file.h \
  /usr/include/x86_64-linux-gnu/c++/9/bits/c++io.h \
  /usr/include/c++/9/bits/fstream.tcc /usr/include/c++/9/stdlib.h \
- /home/polon/Desktop/GraphPartitioners-main/converter/../util.hpp \
+ /home/polon/Desktop/Master-Research/converter/../util.hpp \
  /usr/include/c++/9/chrono /usr/include/c++/9/ratio \
  /usr/include/c++/9/ctime /usr/include/c++/9/bits/parse_numbers.h \
  /usr/include/x86_64-linux-gnu/sys/stat.h \
@@ -181,7 +181,7 @@ CMakeFiles/SOURCE_FILES.dir/converter/shuffler.cpp.o: \
  /usr/include/c++/9/bits/atomic_lockfree_defines.h \
  /usr/local/include/glog/log_severity.h \
  /usr/local/include/glog/vlog_is_on.h \
- /home/polon/Desktop/GraphPartitioners-main/converter/shuffler.hpp \
+ /home/polon/Desktop/Master-Research/converter/shuffler.hpp \
  /usr/include/fcntl.h /usr/include/x86_64-linux-gnu/bits/fcntl.h \
  /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h \
  /usr/include/x86_64-linux-gnu/bits/types/struct_iovec.h \
@@ -200,7 +200,7 @@ CMakeFiles/SOURCE_FILES.dir/converter/shuffler.cpp.o: \
  /usr/include/x86_64-linux-gnu/c++/9/bits/opt_random.h \
  /usr/include/c++/9/bits/random.tcc /usr/include/c++/9/numeric \
  /usr/include/c++/9/bits/stl_numeric.h \
- /home/polon/Desktop/GraphPartitioners-main/converter/conversions.hpp \
+ /home/polon/Desktop/Master-Research/converter/conversions.hpp \
  /usr/include/boost/unordered_map.hpp /usr/include/boost/config.hpp \
  /usr/include/boost/config/user.hpp \
  /usr/include/boost/config/detail/select_compiler_config.hpp \

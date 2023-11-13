@@ -1,6 +1,6 @@
 CMakeFiles/GraphPartitioning.dir/main.cpp.o: \
- /home/polon/Desktop/GraphPartitioners-main/main.cpp \
- /usr/include/stdc-predef.h /usr/include/c++/9/iostream \
+ /home/polon/Desktop/Master-Research/main.cpp /usr/include/stdc-predef.h \
+ /usr/include/c++/9/iostream \
  /usr/include/x86_64-linux-gnu/c++/9/bits/c++config.h \
  /usr/include/x86_64-linux-gnu/c++/9/bits/os_defines.h \
  /usr/include/features.h /usr/include/x86_64-linux-gnu/sys/cdefs.h \
@@ -136,7 +136,7 @@ CMakeFiles/GraphPartitioning.dir/main.cpp.o: \
  /usr/include/c++/9/bits/basic_ios.tcc \
  /usr/include/c++/9/bits/ostream.tcc /usr/include/c++/9/istream \
  /usr/include/c++/9/bits/istream.tcc \
- /home/polon/Desktop/GraphPartitioners-main/converter/conversions.hpp \
+ /home/polon/Desktop/Master-Research/converter/conversions.hpp \
  /usr/include/c++/9/fstream /usr/include/c++/9/bits/codecvt.h \
  /usr/include/x86_64-linux-gnu/c++/9/bits/basic_file.h \
  /usr/include/x86_64-linux-gnu/c++/9/bits/c++io.h \
@@ -497,7 +497,7 @@ CMakeFiles/GraphPartitioning.dir/main.cpp.o: \
  /usr/local/include/gflags/gflags.h \
  /usr/local/include/gflags/gflags_declare.h \
  /usr/local/include/gflags/gflags_gflags.h \
- /home/polon/Desktop/GraphPartitioners-main/converter/../util.hpp \
+ /home/polon/Desktop/Master-Research/converter/../util.hpp \
  /usr/include/c++/9/chrono /usr/include/c++/9/ratio \
  /usr/include/c++/9/ctime /usr/include/c++/9/bits/parse_numbers.h \
  /usr/include/x86_64-linux-gnu/sys/stat.h \
@@ -518,7 +518,7 @@ CMakeFiles/GraphPartitioning.dir/main.cpp.o: \
  /usr/local/include/glog/export.h /usr/include/c++/9/atomic \
  /usr/local/include/glog/log_severity.h \
  /usr/local/include/glog/vlog_is_on.h \
- /home/polon/Desktop/GraphPartitioners-main/converter/shuffler.hpp \
+ /home/polon/Desktop/Master-Research/converter/shuffler.hpp \
  /usr/include/fcntl.h /usr/include/x86_64-linux-gnu/bits/fcntl.h \
  /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h \
  /usr/include/x86_64-linux-gnu/bits/types/struct_iovec.h \
@@ -527,15 +527,16 @@ CMakeFiles/GraphPartitioning.dir/main.cpp.o: \
  /usr/include/x86_64-linux-gnu/c++/9/bits/opt_random.h \
  /usr/include/c++/9/bits/random.tcc /usr/include/c++/9/numeric \
  /usr/include/c++/9/bits/stl_numeric.h \
- /home/polon/Desktop/GraphPartitioners-main/ne_partitioner/ne.hpp \
+ /home/polon/Desktop/Master-Research/ne_partitioner/ne.hpp \
  /usr/include/x86_64-linux-gnu/sys/mman.h \
  /usr/include/x86_64-linux-gnu/bits/mman.h \
  /usr/include/x86_64-linux-gnu/bits/mman-map-flags-generic.h \
  /usr/include/x86_64-linux-gnu/bits/mman-linux.h \
  /usr/include/x86_64-linux-gnu/bits/mman-shared.h \
- /home/polon/Desktop/GraphPartitioners-main/ne_partitioner/../dense_bitset.hpp \
- /home/polon/Desktop/GraphPartitioners-main/ne_partitioner/../partitioner.hpp \
- /home/polon/Desktop/GraphPartitioners-main/ne_partitioner/graph.hpp \
+ /home/polon/Desktop/Master-Research/ne_partitioner/../dense_bitset.hpp \
+ /home/polon/Desktop/Master-Research/ne_partitioner/../partitioner.hpp \
+ /home/polon/Desktop/Master-Research/ne_partitioner/graph.hpp \
+ /home/polon/Desktop/Master-Research/ne_partitioner/../storage.hpp \
  /usr/include/c++/9/parallel/algorithm \
  /usr/include/c++/9/parallel/algorithmfwd.h \
  /usr/include/c++/9/parallel/tags.h \
@@ -589,21 +590,15 @@ CMakeFiles/GraphPartitioning.dir/main.cpp.o: \
  /usr/include/c++/9/parallel/random_shuffle.h \
  /usr/include/c++/9/parallel/merge.h \
  /usr/include/c++/9/parallel/unique_copy.h \
- /usr/include/c++/9/parallel/set_operations.h /usr/include/c++/9/iomanip \
- /usr/include/c++/9/locale /usr/include/c++/9/bits/locale_facets_nonio.h \
- /usr/include/x86_64-linux-gnu/c++/9/bits/time_members.h \
- /usr/include/x86_64-linux-gnu/c++/9/bits/messages_members.h \
- /usr/include/libintl.h /usr/include/c++/9/bits/locale_facets_nonio.tcc \
- /usr/include/c++/9/bits/locale_conv.h \
- /usr/include/c++/9/bits/quoted_string.h \
- /home/polon/Desktop/GraphPartitioners-main/ne_partitioner/../memory.hpp \
- /home/polon/Desktop/GraphPartitioners-main/ne_partitioner/min_heap.hpp \
- /home/polon/Desktop/GraphPartitioners-main/dbh.hpp \
- /home/polon/Desktop/GraphPartitioners-main/hdrf.hpp \
- /home/polon/Desktop/GraphPartitioners-main/streaming_vp/ldg.hpp \
+ /usr/include/c++/9/parallel/set_operations.h \
+ /home/polon/Desktop/Master-Research/ne_partitioner/../memory.hpp \
+ /home/polon/Desktop/Master-Research/ne_partitioner/min_heap.hpp \
+ /home/polon/Desktop/Master-Research/dbh.hpp \
+ /home/polon/Desktop/Master-Research/hdrf.hpp \
+ /home/polon/Desktop/Master-Research/streaming_vp/ldg.hpp \
  /usr/include/c++/9/unordered_set /usr/include/c++/9/bits/hashtable.h \
  /usr/include/c++/9/bits/hashtable_policy.h \
  /usr/include/c++/9/bits/unordered_set.h \
- /home/polon/Desktop/GraphPartitioners-main/streaming_vp/fennel.hpp \
- /home/polon/Desktop/GraphPartitioners-main/pre_processing.hpp \
- /home/polon/Desktop/GraphPartitioners-main/memory_for_pre.hpp
+ /home/polon/Desktop/Master-Research/streaming_vp/fennel.hpp \
+ /home/polon/Desktop/Master-Research/pre_processing.hpp \
+ /home/polon/Desktop/Master-Research/memory_for_pre.hpp

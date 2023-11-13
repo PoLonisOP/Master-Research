@@ -4,7 +4,7 @@ void graph_t::build(const std::vector<edge_t> &edges, Storage &mem)
 {
     // changed
     mem.Set_trace_files();
-    mem.Set_trace_files2();
+    // mem.Set_trace_files2();
     //可能存在孤立节点，在有边的时候才创建
     if (edges.size() > nedges)
         neighbors = (uint40_t *)realloc(neighbors, sizeof(uint40_t) * edges.size());

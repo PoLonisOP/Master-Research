@@ -46,6 +46,8 @@ NePartitioner::NePartitioner(std::string basefilename, std::string method, int p
     degree_file.read((char *)&degrees[0], num_vertices * sizeof(vid_t));
     degree_file.close();
 
+    part_degrees.assign(num_vertices,vector<vid_t>(p));
+    balance_vertex_distribute.resize(num_vertices);
     fin.close();
 }
 
@@ -65,45 +67,6 @@ void NePartitioner::assign_remaining() {
                 is_core.set_unsync(i, false);
                 break;
             }
-        }
-    }
-}
-
-void NePartitioner::assign_master() {
-    std::vector<vid_t> count_master(p, 0);
-    std::vector<vid_t> quota(p, num_vertices);
-    long long sum = p * num_vertices;
-    std::uniform_real_distribution<double> distribution(0.0, 1.0);
-    std::vector<dense_bitset::iterator> pos(p);
-    rep(b, p) pos[b] = is_boundarys[b].begin();
-    vid_t count = 0;
-    while (count < 265009) { // 265009 for dataset EuAll, 
-        // if (count >= 265000)
-        //     std::cout << "asssign_master: " << count << " rounds start!------" << std::endl;
-        long long r = distribution(gen) * sum;
-        //随机选择哪个子图先赋值
-        int k;
-        for (k = 0; k < p; k++) {
-            // if (count >= 265000)
-            //     std::cout << "k: " << k << " " << std::endl;
-            if (r < quota[k])
-                break;
-            r -= quota[k];
-            // if (count >= 265000)
-            //     std::cout << "r: " << r << " " << std::endl;
-        }
-        //选出当前位置还未被赋值的结点
-        while (pos[k] != is_boundarys[k].end() && master[*pos[k]] != -1)
-            pos[k]++;
-        // if (count >= 265000)
-        //     std::cout << "(*pos[k], k): (" << *pos[k] << ", " << k << ")" << std::endl;
-        if (pos[k] != is_boundarys[k].end()) {
-            count++;
-            master[*pos[k]] = k;
-            save_vertex(*pos[k], k);
-            count_master[k]++;
-            quota[k]--;
-            sum--;
         }
     }
 }
@@ -156,43 +119,67 @@ void NePartitioner::split() {
     bucket = p - 1;
     assign_remaining();
     std::cerr << "For the " << bucket << " partition complete!" << std::endl;
-    assign_master();
-    node_fout.close();
-    LOG(INFO) << "expected edges in each partition: " << num_edges / p;
-    rep (i, p)
-        DLOG(INFO) << "edges in partition " << i << ": " << occupied[i];
-    size_t max_occupied = *std::max_element(occupied.begin(), occupied.end());
-    LOG(INFO) << "balance: " << (double)max_occupied / ((double)num_edges / p);
-    size_t total_mirrors = count_mirrors();
-    LOG(INFO) << "total mirrors: " << total_mirrors;
-    LOG(INFO) << "replication factor: " << (double)total_mirrors / num_vertices;
 
     CHECK_EQ(assigned_edges, num_edges);
 
-    // repv(i, num_vertices) {
-    //     rep(j,p){
-    //         if (is_mirrors[j].get(i)) {
-    //             save_vertex(i,j);
-    //         }
-    //     }
-    // }
-    //根据结点平衡性、随机分配的重叠度以及结点的度大小来判断
+    vector<vid_t> buckets(p);
+    double capacity = (double)true_vids.popcount() * 1.05 / p + 1;
+    rep(i, num_vertices){
+        double max_score=0.0;
+        vid_t which_p;
+        bool unique=false;
+        if(is_mirrors[i].popcount()==1){
+            unique=true;
+        }
+        repv(j, p){
+            if (is_mirrors[i].get(j)) {
+//                double score=((i%p==j)?1:0)+(part_degrees[i][j]/(degrees[i]+1))+(buckets[j]< capacity?1:0);
+                double score=(part_degrees[i][j]/(degrees[i]+1))+(buckets[j]< capacity?1:0);
+                if (unique){
+                    which_p=j;
+                }else if (max_score<score){
+                    max_score=score;
+                    which_p=j;
+                }
+            }
+        }
+        ++buckets[which_p];
+        save_vertex(i,which_p);
+        balance_vertex_distribute[i]=which_p;
+    }
+    node_fout.close();
 
-    // ifstream fin(binedgelist_name(basefilename), std::ios::binary | std::ios::ate);
-    // fin.seekg(sizeof(num_vertices) + sizeof(num_edges), std::ios::beg);
-    // edges.resize(num_edges);
-    // fin.read((char *)&edges[0], sizeof(edge_t) * num_edges);
-    // for (auto &e : edges)
-    // {
-    //     vid_t sp=balance_vertex_distribute[e.first],tp=balance_vertex_distribute[e.second];
-    //     save_edge(e.first,e.second,sp);
-    //     save_edge(e.second,e.first,tp);
-    // }
-    // edge_fout.close();
+    size_t total_mirrors = count_mirrors();
 
+    ifstream fin(binedgelist_name(basefilename), std::ios::binary | std::ios::ate);
+    fin.seekg(sizeof(num_vertices) + sizeof(num_edges), std::ios::beg);
+    edges.resize(num_edges);
+    fin.read((char *)&edges[0], sizeof(edge_t) * num_edges);
+    for (auto &e : edges)
+    {
+        vid_t sp=balance_vertex_distribute[e.first],tp=balance_vertex_distribute[e.second];
+        save_edge(e.first,e.second,sp);
+        save_edge(e.second,e.first,tp);
+    }
     edge_fout.close();
-    total_time.stop();
 
+    // edge_fout.close();
+    total_time.stop();
+    // repv(j, p)
+    //     LOG(INFO) << "each partition node count: " << buckets[j];
+    LOG(INFO) << "expected edges in each partition: " << num_edges / p;
+    size_t max_occupied = *std::max_element(occupied.begin(), occupied.end());
+    LOG(INFO) << "balance: " << (double)max_occupied / ((double)num_edges / p);
+    rep (i, p)
+        DLOG(INFO) << "edges in partition " << i << ": " << occupied[i];
+    LOG(INFO) << "total mirrors: " << total_mirrors;
+    LOG(INFO) << "replication factor: " << (double)total_mirrors / true_vids.popcount();
+    // changed
+    LOG(INFO) << "Read times in trace: " << mem.read_times;
+    LOG(INFO) << "Write times in trace: " << mem.write_times;
+    // LOG(INFO) << "Read times in trace: " << mem.read_times_2;
+    // LOG(INFO) << "Write times in trace: " << mem.write_times_2;
+    LOG(INFO) << "page_num: " << mem.page_num_cnt;
 
     LOG(INFO) << "total partition time: " << total_time.get_time();
 }

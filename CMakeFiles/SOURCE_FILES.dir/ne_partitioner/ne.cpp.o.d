@@ -1,7 +1,7 @@
 CMakeFiles/SOURCE_FILES.dir/ne_partitioner/ne.cpp.o: \
- /home/polon/Desktop/GraphPartitioners-main/ne_partitioner/ne.cpp \
+ /home/polon/Desktop/Master-Research/ne_partitioner/ne.cpp \
  /usr/include/stdc-predef.h \
- /home/polon/Desktop/GraphPartitioners-main/ne_partitioner/ne.hpp \
+ /home/polon/Desktop/Master-Research/ne_partitioner/ne.hpp \
  /usr/include/c++/9/string \
  /usr/include/x86_64-linux-gnu/c++/9/bits/c++config.h \
  /usr/include/x86_64-linux-gnu/c++/9/bits/os_defines.h \
@@ -192,9 +192,9 @@ CMakeFiles/SOURCE_FILES.dir/ne_partitioner/ne.cpp.o: \
  /usr/include/x86_64-linux-gnu/bits/getopt_posix.h \
  /usr/include/x86_64-linux-gnu/bits/getopt_core.h \
  /usr/include/x86_64-linux-gnu/bits/unistd_ext.h \
- /home/polon/Desktop/GraphPartitioners-main/ne_partitioner/../dense_bitset.hpp \
+ /home/polon/Desktop/Master-Research/ne_partitioner/../dense_bitset.hpp \
  /usr/include/c++/9/cstring /usr/include/string.h /usr/include/strings.h \
- /home/polon/Desktop/GraphPartitioners-main/ne_partitioner/../util.hpp \
+ /home/polon/Desktop/Master-Research/ne_partitioner/../util.hpp \
  /usr/include/c++/9/utility /usr/include/c++/9/bits/stl_relops.h \
  /usr/include/c++/9/chrono /usr/include/c++/9/ratio \
  /usr/include/c++/9/ctime /usr/include/c++/9/bits/parse_numbers.h \
@@ -205,8 +205,9 @@ CMakeFiles/SOURCE_FILES.dir/ne_partitioner/ne.cpp.o: \
  /usr/include/c++/9/bits/atomic_lockfree_defines.h \
  /usr/local/include/glog/log_severity.h \
  /usr/local/include/glog/vlog_is_on.h \
- /home/polon/Desktop/GraphPartitioners-main/ne_partitioner/../partitioner.hpp \
- /home/polon/Desktop/GraphPartitioners-main/ne_partitioner/graph.hpp \
+ /home/polon/Desktop/Master-Research/ne_partitioner/../partitioner.hpp \
+ /home/polon/Desktop/Master-Research/ne_partitioner/graph.hpp \
+ /home/polon/Desktop/Master-Research/ne_partitioner/../storage.hpp \
  /usr/include/c++/9/parallel/algorithm /usr/include/c++/9/algorithm \
  /usr/include/c++/9/bits/stl_algo.h \
  /usr/include/c++/9/bits/algorithmfwd.h \
@@ -272,15 +273,8 @@ CMakeFiles/SOURCE_FILES.dir/ne_partitioner/ne.cpp.o: \
  /usr/include/c++/9/bits/stl_map.h /usr/include/c++/9/tuple \
  /usr/include/c++/9/array /usr/include/c++/9/bits/invoke.h \
  /usr/include/c++/9/bits/stl_multimap.h \
- /usr/include/c++/9/bits/erase_if.h /usr/include/c++/9/iomanip \
- /usr/include/c++/9/locale /usr/include/c++/9/bits/locale_facets_nonio.h \
- /usr/include/x86_64-linux-gnu/c++/9/bits/time_members.h \
- /usr/include/x86_64-linux-gnu/c++/9/bits/messages_members.h \
- /usr/include/libintl.h /usr/include/c++/9/bits/locale_facets_nonio.tcc \
- /usr/include/c++/9/bits/locale_conv.h \
- /usr/include/c++/9/bits/unique_ptr.h \
- /usr/include/c++/9/bits/quoted_string.h \
- /home/polon/Desktop/GraphPartitioners-main/ne_partitioner/../memory.hpp \
+ /usr/include/c++/9/bits/erase_if.h \
+ /home/polon/Desktop/Master-Research/ne_partitioner/../memory.hpp \
  /usr/include/c++/9/set /usr/include/c++/9/bits/stl_set.h \
  /usr/include/c++/9/bits/stl_multiset.h \
- /home/polon/Desktop/GraphPartitioners-main/ne_partitioner/min_heap.hpp
+ /home/polon/Desktop/Master-Research/ne_partitioner/min_heap.hpp

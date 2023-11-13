@@ -66,7 +66,6 @@ void PreprocessingPartitioner::BFS_partition(vid_t min_index, uint32_t pages, ui
             partition[part].emplace_back(min_index);
             remaining_pages.erase(min_index);
             if (++pages_for_forming_partition == pages) {
-                // LOG(INFO) << "5";
                 return;
             }
             while (!que.empty()) {
@@ -80,7 +79,6 @@ void PreprocessingPartitioner::BFS_partition(vid_t min_index, uint32_t pages, ui
                         partition[part].emplace_back(*it);
                         remaining_pages.erase(*it);
                         if (++pages_for_forming_partition == pages) {
-                            // LOG(INFO) << "5";
                             return;
                         }
                     }
@@ -113,9 +111,8 @@ void PreprocessingPartitioner::batch_read() {
     int min_related_page_size = INT32_MAX;
     int min_page_num = -1;
     partition.assign(p, vector<uint32_t>());
-    // LOG(INFO) << "2";
     for (uint32_t i = 0; i < mem.page_num; i++) { // the first time initialize
-        remaining_pages.emplace(i);
+        remaining_pages.insert(i);
         if (!mem.related_pages_map[i].size()) {
             partition_fout << i << " " << 0 << endl;
             partition[0].emplace_back(i);
@@ -134,7 +131,6 @@ void PreprocessingPartitioner::batch_read() {
         // LOG(INFO) << "4";
         //do the partitioning
         BFS_partition(min_page_num, occupied[part] - none_related_pages, part);
-        // LOG(INFO) << "6";
         // insert the new relation of the pages in partition, simultaneously delete the relation 
         // between the pages that inside and outside of partition
         int iter = 0;
@@ -156,9 +152,13 @@ void PreprocessingPartitioner::batch_read() {
         // LOG(INFO) << "7";
         none_related_pages = 0;  // the rest of initialization
         min_related_page_size = INT32_MAX;
+        // LOG(INFO) << "8";
         min_page_num = -1;
+        // LOG(INFO) << "remaining_pages: " << remaining_pages.size();
         for (set<vid_t>::iterator re = remaining_pages.begin(); re != remaining_pages.end(); re++) {
+            // LOG(INFO) << "iterator: ";
             if (!mem.related_pages_map[*re].size()) {
+                // LOG(INFO) << "1";
                 int next_part = part + 1;
                 if (part == p - 1)
                     next_part = part;
@@ -166,7 +166,9 @@ void PreprocessingPartitioner::batch_read() {
                 partition[next_part].emplace_back(*re);
                 mem.Trace_R();
                 none_related_pages++;
+                // LOG(INFO) << "2";
             } else if (mem.related_pages_map[*re].size() < min_related_page_size) {
+                // LOG(INFO) << "3";
                 min_related_page_size = mem.related_pages_map[*re].size();
                 min_page_num = *re;
                 // LOG(INFO) << "mem.related_pages_map[*re].size(): " << mem.related_pages_map[*re].size();
@@ -492,4 +494,6 @@ void PreprocessingPartitioner::split()
     size_t total_mirrors = count_mirrors();
     LOG(INFO) << "total mirrors: " << total_mirrors;
     LOG(INFO) << "replication factor: " << (double)total_mirrors / num_vertices;
+    LOG(INFO) << "Read times in trace: " << mem.read_times;
+    LOG(INFO) << "Write times in trace: " << mem.write_times;
 }

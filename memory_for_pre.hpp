@@ -22,7 +22,7 @@ private:
     long pos; 
     //vector<vector<vid_t>> LPN_Boundary_vertices_set_map; 
 
-    string basefilename = "/home/polon/Desktop/GraphPartitioners-main/Output_trace_pre.txt"; 
+    string basefilename = "/home/polon/Desktop/Master-Research/Output_trace_pre_amazon0601.txt"; 
     ofstream trace_fout; 
 
     // void Update_batch_buffer(vid_t); 
@@ -37,6 +37,8 @@ public:
     uint32_t cnt_for_page_buffer = 0; //counting the edges togather for containing the page buffer size
     uint32_t tmp_cnt_for_page_buffer = 0;
     uint32_t cnt_for_page_buffer_combine = 0;
+    size_t read_times = 0;
+    size_t write_times = 0;
 
     vector<vector<vid_t>> vid_for_page_range;
     vector<set<uint32_t>> related_pages_map;

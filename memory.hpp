@@ -13,7 +13,6 @@ using namespace std;
 class Memory { 
 private: 
     size_t page_index = 0;
-    //size_t page_num = 0; 
     size_t channel = 32; 
     size_t dies = 4; 
     // 1.Request_Arrival_Time 2.Device_Number 3.Starting_Logical_Sector_Address 4.Request_Size_In_Sectors 5.Type_of_Requests[0 for write, 1 for read]
@@ -25,8 +24,8 @@ private:
     size_t Request_Size_In_Sectors = 8; 
     long pos; 
 
-    string basefilename = "/home/polon/Desktop/GraphPartitioners-main/Output_trace_ne.txt"; 
-    string basefilename2 = "/home/polon/Desktop/GraphPartitioners-main/Output_trace_ne_2.txt"; 
+    string basefilename = "/home/polon/Desktop/Master-Research/Output_trace_ne_amazon0601_adj.txt"; 
+    string basefilename2 = "/home/polon/Desktop/Master-Research/Output_trace_ne_amazon0601_csr.txt"; 
     ofstream trace_fout;
     ofstream trace_fout2;
 
@@ -36,7 +35,10 @@ public:
     size_t page_size = 4096; 
     size_t cache_buffer = channel * dies; 
     size_t CSR_trace_cnt = 1024;
-    size_t page_num = 0;
+    size_t read_times = 0;
+    size_t write_times = 0;
+    size_t read_times_2 = 0;
+    size_t write_times_2 = 0;
 
     void Set_trace_files();
     void Set_trace_files2();

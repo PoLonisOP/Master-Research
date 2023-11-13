@@ -8,7 +8,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/home/polon/Desktop/GraphPartitioners-main/main.cpp" "CMakeFiles/GraphPartitioning.dir/main.cpp.o" "gcc" "CMakeFiles/GraphPartitioning.dir/main.cpp.o.d"
+  "/home/polon/Desktop/Master-Research/main.cpp" "CMakeFiles/GraphPartitioning.dir/main.cpp.o" "gcc" "CMakeFiles/GraphPartitioning.dir/main.cpp.o.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

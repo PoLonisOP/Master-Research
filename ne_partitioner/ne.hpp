@@ -86,7 +86,7 @@ private:
     void assign_edge(int bucket, vid_t from, vid_t to)
     {
         // std::cout << "save_edge!----------------" << std::endl;
-        save_edge(from, to, bucket);
+        // save_edge(from, to, bucket);
         // writer.save_edge(from, to, bucket);
         true_vids.set_bit_unsync(from);
         true_vids.set_bit_unsync(to);
@@ -97,8 +97,8 @@ private:
         degrees[from]--;
         degrees[to]--;
         // changed
-        // ADJ page replacememt computing
         mem.flag_in_memory = 0;
+        // ADJ page replacememt computing
         if (mem.ADJ_lru_pointer > 128)
             for (size_t index: mem.ADJ_lru_for_working_memory)
                 index -= 128;
@@ -228,7 +228,6 @@ private:
     }
 
     void assign_remaining();
-    void assign_master();
     size_t count_mirrors();
 
 public:

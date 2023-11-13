@@ -1,7 +1,7 @@
 CMakeFiles/SOURCE_FILES.dir/streaming_vp/ldg.cpp.o: \
- /home/polon/Desktop/GraphPartitioners-main/streaming_vp/ldg.cpp \
+ /home/polon/Desktop/Master-Research/streaming_vp/ldg.cpp \
  /usr/include/stdc-predef.h \
- /home/polon/Desktop/GraphPartitioners-main/streaming_vp/ldg.hpp \
+ /home/polon/Desktop/Master-Research/streaming_vp/ldg.hpp \
  /usr/include/c++/9/string \
  /usr/include/x86_64-linux-gnu/c++/9/bits/c++config.h \
  /usr/include/x86_64-linux-gnu/c++/9/bits/os_defines.h \
@@ -160,9 +160,9 @@ CMakeFiles/SOURCE_FILES.dir/streaming_vp/ldg.cpp.o: \
  /usr/include/c++/9/unordered_set /usr/include/c++/9/bits/hashtable.h \
  /usr/include/c++/9/bits/hashtable_policy.h /usr/include/c++/9/limits \
  /usr/include/c++/9/bits/unordered_set.h \
- /home/polon/Desktop/GraphPartitioners-main/streaming_vp/../partitioner.hpp \
+ /home/polon/Desktop/Master-Research/streaming_vp/../partitioner.hpp \
  /usr/include/c++/9/sstream /usr/include/c++/9/bits/sstream.tcc \
- /home/polon/Desktop/GraphPartitioners-main/streaming_vp/../util.hpp \
+ /home/polon/Desktop/Master-Research/streaming_vp/../util.hpp \
  /usr/include/c++/9/chrono /usr/include/c++/9/ratio \
  /usr/include/c++/9/ctime /usr/include/c++/9/bits/parse_numbers.h \
  /usr/include/x86_64-linux-gnu/sys/stat.h \
@@ -192,7 +192,7 @@ CMakeFiles/SOURCE_FILES.dir/streaming_vp/ldg.cpp.o: \
  /usr/include/c++/9/bits/atomic_lockfree_defines.h \
  /usr/local/include/glog/log_severity.h \
  /usr/local/include/glog/vlog_is_on.h \
- /home/polon/Desktop/GraphPartitioners-main/streaming_vp/../dense_bitset.hpp \
+ /home/polon/Desktop/Master-Research/streaming_vp/../dense_bitset.hpp \
  /usr/include/c++/9/algorithm /usr/include/c++/9/bits/stl_algo.h \
  /usr/include/c++/9/bits/algorithmfwd.h \
  /usr/include/c++/9/bits/stl_heap.h /usr/include/c++/9/bits/stl_tempbuf.h \

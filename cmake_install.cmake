@@ -1,4 +1,4 @@
-# Install script for directory: /home/polon/Desktop/GraphPartitioners-main
+# Install script for directory: /home/polon/Desktop/Master-Research
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -50,5 +50,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/polon/Desktop/GraphPartitioners-main/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/polon/Desktop/Master-Research/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

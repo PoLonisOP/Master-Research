@@ -1,7 +1,7 @@
 CMakeFiles/SOURCE_FILES.dir/pre_processing.cpp.o: \
- /home/polon/Desktop/GraphPartitioners-main/pre_processing.cpp \
+ /home/polon/Desktop/Master-Research/pre_processing.cpp \
  /usr/include/stdc-predef.h \
- /home/polon/Desktop/GraphPartitioners-main/pre_processing.hpp \
+ /home/polon/Desktop/Master-Research/pre_processing.hpp \
  /usr/include/c++/9/string \
  /usr/include/x86_64-linux-gnu/c++/9/bits/c++config.h \
  /usr/include/x86_64-linux-gnu/c++/9/bits/os_defines.h \
@@ -196,10 +196,10 @@ CMakeFiles/SOURCE_FILES.dir/pre_processing.cpp.o: \
  /usr/include/c++/9/bits/deque.tcc /usr/include/c++/9/bits/stl_heap.h \
  /usr/include/c++/9/bits/stl_queue.h \
  /usr/include/c++/9/bits/uses_allocator.h \
- /home/polon/Desktop/GraphPartitioners-main/util.hpp \
- /usr/include/c++/9/utility /usr/include/c++/9/bits/stl_relops.h \
- /usr/include/c++/9/chrono /usr/include/c++/9/ratio \
- /usr/include/c++/9/ctime /usr/include/c++/9/bits/parse_numbers.h \
+ /home/polon/Desktop/Master-Research/util.hpp /usr/include/c++/9/utility \
+ /usr/include/c++/9/bits/stl_relops.h /usr/include/c++/9/chrono \
+ /usr/include/c++/9/ratio /usr/include/c++/9/ctime \
+ /usr/include/c++/9/bits/parse_numbers.h \
  /usr/local/include/glog/logging.h /usr/include/c++/9/cstddef \
  /usr/include/c++/9/cstring /usr/include/string.h /usr/include/strings.h \
  /usr/include/c++/9/sstream /usr/include/c++/9/bits/sstream.tcc \
@@ -208,8 +208,8 @@ CMakeFiles/SOURCE_FILES.dir/pre_processing.cpp.o: \
  /usr/include/c++/9/bits/atomic_lockfree_defines.h \
  /usr/local/include/glog/log_severity.h \
  /usr/local/include/glog/vlog_is_on.h \
- /home/polon/Desktop/GraphPartitioners-main/partitioner.hpp \
- /home/polon/Desktop/GraphPartitioners-main/memory_for_pre.hpp \
+ /home/polon/Desktop/Master-Research/partitioner.hpp \
+ /home/polon/Desktop/Master-Research/memory_for_pre.hpp \
  /usr/include/c++/9/map /usr/include/c++/9/bits/stl_tree.h \
  /usr/include/c++/9/ext/aligned_buffer.h \
  /usr/include/c++/9/bits/stl_map.h /usr/include/c++/9/tuple \

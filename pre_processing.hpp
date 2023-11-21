@@ -66,6 +66,7 @@ protected:
     void BFS_partition(vid_t, uint32_t, uint32_t);
 public:
     uint32_t cnt_for_visit_time = 0;
+    uint32_t cnt_for_bvs = 0;
 
     PreprocessingPartitioner(string basefilename, string method, uint32_t pnum, int memsize);
 

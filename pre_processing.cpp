@@ -315,6 +315,7 @@ void PreprocessingPartitioner::batch_DFS(uint32_t batches) {
                 }
                 mem.LPN_Boundary_vertices_set_map[mem.page_num++] = boundary_vertices_set; // place the page
                 mem.Trace_W();
+                cnt_for_bvs++;
                 boundary_vertices_set.clear();
                 page_set.emplace_back(set<vid_t>());
                 mem.LPN_Boundary_vertices_set_map.emplace_back(set<vid_t>());
@@ -496,4 +497,5 @@ void PreprocessingPartitioner::split()
     LOG(INFO) << "replication factor: " << (double)total_mirrors / num_vertices;
     LOG(INFO) << "Read times in trace: " << mem.read_times;
     LOG(INFO) << "Write times in trace: " << mem.write_times;
+    LOG(INFO) << "Amount of boundary vertices sets: " << cnt_for_bvs;
 }

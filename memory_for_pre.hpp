@@ -22,7 +22,7 @@ private:
     long pos; 
     //vector<vector<vid_t>> LPN_Boundary_vertices_set_map; 
 
-    string basefilename = "/home/polon/Desktop/Master-Research/Output_trace_pre_amazon0601.txt"; 
+    string basefilename = "/home/polon/Desktop/Master-Research/Output_trace_pre_yt.txt"; 
     ofstream trace_fout; 
 
     // void Update_batch_buffer(vid_t); 

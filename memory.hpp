@@ -24,8 +24,8 @@ private:
     size_t Request_Size_In_Sectors = 8; 
     long pos; 
 
-    string basefilename = "/home/polon/Desktop/Master-Research/Output_trace_ne_amazon0601_adj.txt"; 
-    string basefilename2 = "/home/polon/Desktop/Master-Research/Output_trace_ne_amazon0601_csr.txt"; 
+    string basefilename = "/home/polon/Desktop/Master-Research/Output_trace_ne_yt_adj.txt"; 
+    string basefilename2 = "/home/polon/Desktop/Master-Research/Output_trace_ne_yt_csr.txt"; 
     ofstream trace_fout;
     ofstream trace_fout2;
 

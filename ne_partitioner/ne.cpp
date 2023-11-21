@@ -19,6 +19,8 @@ NePartitioner::NePartitioner(std::string basefilename, std::string method, int p
     //最大的下标+1
     fin.read((char *)&num_vertices, sizeof(num_vertices));
     fin.read((char *)&num_edges, sizeof(num_edges));
+    LOG(INFO) << "num_vertices: " << num_vertices;
+    LOG(INFO) << "num_edges: " << num_edges;
 
     CHECK_EQ(sizeof(vid_t) + sizeof(size_t) + num_edges * sizeof(edge_t),
              filesize);
@@ -44,6 +46,35 @@ NePartitioner::NePartitioner(std::string basefilename, std::string method, int p
     degrees.resize(num_vertices);
     std::ifstream degree_file(degree_name(basefilename), std::ios::binary);
     degree_file.read((char *)&degrees[0], num_vertices * sizeof(vid_t));
+    vid_t max_degree = *std::max_element(degrees.begin(), degrees.end());
+    LOG(INFO) << "Max degree: " << max_degree;
+    vid_t degree_smaller_than_page = 0;
+    vid_t supposed_page_read_adj = 0;
+    vid_t supposed_page_read_csr = 0;
+    vid_t csr_cnt_for_page_read = 0;
+    rep(i, num_vertices) {
+        vid_t more_than_one_page = degrees[i] / mem.CSR_trace_cnt;
+        if (more_than_one_page) {
+            supposed_page_read_adj += more_than_one_page + 1;
+            supposed_page_read_csr += more_than_one_page;
+            if (degrees[i] % mem.CSR_trace_cnt) 
+                csr_cnt_for_page_read += (degrees[i] % mem.CSR_trace_cnt);
+            else
+                supposed_page_read_adj--;
+        }
+        if (degrees[i] < mem.CSR_trace_cnt)
+            degree_smaller_than_page++;
+    }
+    supposed_page_read_csr += (csr_cnt_for_page_read / mem.CSR_trace_cnt);
+    if (csr_cnt_for_page_read % mem.CSR_trace_cnt)
+        supposed_page_read_csr++;
+    LOG(INFO) << "Supposed page read with adj: " << supposed_page_read_adj;
+    LOG(INFO) << "Supposed page write with csr: " << supposed_page_read_csr;
+    LOG(INFO) << "Degree smaller than a page: " << degree_smaller_than_page;
+    vid_t sum_degree = 0;
+    rep (i, num_vertices)
+        sum_degree += degrees[i];
+    LOG(INFO) << "Avg degree: " << (double)sum_degree / num_vertices;
     degree_file.close();
 
     part_degrees.assign(num_vertices,vector<vid_t>(p));
@@ -175,10 +206,10 @@ void NePartitioner::split() {
     LOG(INFO) << "total mirrors: " << total_mirrors;
     LOG(INFO) << "replication factor: " << (double)total_mirrors / true_vids.popcount();
     // changed
-    LOG(INFO) << "Read times in trace: " << mem.read_times;
-    LOG(INFO) << "Write times in trace: " << mem.write_times;
-    // LOG(INFO) << "Read times in trace: " << mem.read_times_2;
-    // LOG(INFO) << "Write times in trace: " << mem.write_times_2;
+    LOG(INFO) << "Adj read times in trace: " << mem.read_times;
+    LOG(INFO) << "Adj write times in trace: " << mem.write_times;
+    LOG(INFO) << "Csr read times in trace: " << mem.read_times_2;
+    LOG(INFO) << "Csr write times in trace: " << mem.write_times_2;
     LOG(INFO) << "page_num: " << mem.page_num_cnt;
 
     LOG(INFO) << "total partition time: " << total_time.get_time();

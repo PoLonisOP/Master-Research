@@ -24,7 +24,7 @@ int main() {
     string method = "ne";
     double lambda = 1.1;
     double balance_ratio = 1.05;
-    string edgename = "/home/polon/Desktop/Master-Research/Datasets/amazon0601.txt";
+    string edgename = "/home/polon/Desktop/Master-Research/Datasets/com-youtube.ungraph.txt";
 
     bool shuffle=false;
     

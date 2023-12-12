@@ -3,7 +3,7 @@ Github: https://github.com/PoLonisOP/Master-Research/tree/preprocessingPartition
 ## main 
 之前使用SSD不同的儲存方式(ex. CSR, ADJ, sequential)跟pagerank演算法結合, 直接vscode跑任何一個.exe就可以運行
 ## preprocessingPartition 
-包含ne, fennel, ldg, dbh, hdrf and my method不同的partitioning方法, 其中我的方法跟ne有做SSD儲存方式比較(ex. ADJ, CSR)  
+包含ne, fennel, ldg, dbh, hdrf and my method(pre)不同的partitioning方法, 其中我的方法跟ne有做SSD儲存方式比較(ex. ADJ, CSR)  
 Linux上 cmake後執行`./GraphPartitioning`運行  
   
 some args in the `main.cpp`:  

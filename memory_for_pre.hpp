@@ -34,18 +34,18 @@ public:
     uint32_t page_num = 0;
     uint32_t index_for_page_buffer = 0; // index of set number
     uint32_t page_buffer_size = cache_buffer * trace_write_cnt;
-    uint32_t cnt_for_page_buffer = 0; //counting the edges togather for containing the page buffer size
+    uint32_t cnt_for_page_buffer = 0; // counting the edges togather for containing the page buffer size
     uint32_t tmp_cnt_for_page_buffer = 0;
     uint32_t cnt_for_page_buffer_combine = 0;
     size_t read_times = 0;
     size_t write_times = 0;
 
-    vector<vector<vid_t>> vid_for_page_range;
+    // vector<vector<vid_t>> vid_for_page_range;
     vector<set<uint32_t>> related_pages_map;
     vector<set<uint32_t>> vertices_LPN_map;
     vector<set<vid_t>> LPN_Boundary_vertices_set_map;
     vector<set<vid_t>> page_buffer;
-    vector<uint32_t> cnt_for_edges_in_page_buffer; //counting the edges separate from different sets in page buffer
+    vector<uint32_t> cnt_for_edges_in_page_buffer; // counting the edges separate from different sets in page buffer
 
     void Set_trace_files();
     void Trace_R();

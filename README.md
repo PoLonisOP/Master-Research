@@ -67,9 +67,9 @@ We compare the page replacements with `ne` method with two state-of-art storage 
   basefilename is the output trace of Adj list format, and basefilename2 is for CSR format. 
 ### GraLoc operation
 GraLoc, a graph partitioning solution designed to be NAND flash memory-friendly by considering graph locality during data placement. The proposed solution aims to maximize graph locality within a single page, effectively minimizing read amplification during the graph partitioning process. Our experiments demonstrate a significant improvement in storage performance during graph partitioning. You can choose our method with `pre` in the `main.cpp` line `24`. 
-* `memory_for_pre.hpp` input:
-  same as `memory.hpp`.
-* `pre_processing.cpp` output:
+* `memory_for_pre.hpp` input:  
+  same as `memory.hpp`.  
+* `pre_processing.cpp` output:  
   ```c++
     LOG(INFO) << "cycle edges: " << cycle_edges;
     LOG(INFO) << "total partition time: " << total_time.get_time();

@@ -96,3 +96,28 @@ Choose our method with `pre` in the `main.cpp` line `24`.
     LOG(INFO) << "Write times in trace: " << mem.write_times;
     LOG(INFO) << "Amount of boundary vertices sets: " << cnt_for_bvs;
   ```
+### MQSim setup
+
+<table>
+    <tr>
+        <td align="center" colspan=4 >MQSim Settings</td>
+    </tr>
+    <tr>
+        <td>Cell types</td>
+        <td>MLC</td>
+        <td>Capacity</td>
+        <td>8GB</td>
+    </tr>
+    <tr>
+        <td>Block size</td>
+        <td>1MB</td>
+        <td>Page size</td>
+        <td>1 ns/200 fJ</td>
+    </tr>
+    <tr>
+        <td>Program</td>
+        <td>750us</td>
+        <td>Read</td>
+        <td>35us</td>
+    </tr>
+</table>

@@ -2,9 +2,9 @@
 
 #include"../storage.hpp"
 
-//按照紧凑排列的方式，占用内存
+// 按照紧凑排列的方式，占用内存
 struct uint40_t {
-    //占用位段
+    // 占用位段
     uint64_t v:40;
 } __attribute__((packed));
 
@@ -35,9 +35,9 @@ class graph_t
 private:
     vid_t num_vertices;
     size_t nedges;
-    //neighbors是构造vdata的一个初始化数组
+    // neighbors是构造vdata的一个初始化数组
     uint40_t *neighbors;
-    //vdata存储了edges数组元素的下标
+    // vdata存储了edges数组元素的下标
     std::vector<adjlist_t> vdata;
 
 public:

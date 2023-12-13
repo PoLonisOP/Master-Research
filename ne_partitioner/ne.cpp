@@ -210,7 +210,7 @@ void NePartitioner::split() {
     LOG(INFO) << "Adj write times in trace: " << mem.write_times;
     LOG(INFO) << "Csr read times in trace: " << mem.read_times_2;
     LOG(INFO) << "Csr write times in trace: " << mem.write_times_2;
-    LOG(INFO) << "page_num: " << mem.page_num_cnt;
+    LOG(INFO) << "page number: " << mem.page_num_cnt;
 
     LOG(INFO) << "total partition time: " << total_time.get_time();
 }

@@ -97,7 +97,7 @@ Choose our method with `pre` in the `main.cpp` line `24`.
     LOG(INFO) << "Amount of boundary vertices sets: " << cnt_for_bvs;
   ```
 ### MQSim setup
-
+Set the flash memory arguments in `ssdconfig.xml`.  
 <table>
     <tr>
         <td align="center" colspan=4 >MQSim Settings</td>

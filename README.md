@@ -1,16 +1,24 @@
 ﻿# GraLoc
 GraLoc, a graph partitioning solution designed to be NAND flash memory-friendly by considering graph locality during data placement. The proposed solution aims to maximize graph locality within a single page, effectively minimizing read amplification during the graph partitioning process. Our experiments demonstrate a significant improvement in storage performance during graph partitioning. 
-## main 
+## storage_PR branch
 之前使用 SSD 不同的儲存方式 (ex. CSR, ADJ, sequential) 跟 pagerank 演算法結合, 直接 vscode 跑任何一個 `.exe` 就可以運行
-## preprocessingPartition 
+## preprocessingPartition branch
 包含 ne, fennel, ldg, dbh, hdrf and my method(pre) 不同的 partitioning 方法, 其中我的方法跟 ne 有做 SSD 儲存方式比較 (ex. ADJ, CSR)  
 Linux 上 cmake 後執行 `./GraphPartitioning` 運行  
+```c++
+mkdir build
+cd build
+cmake ..
+make -j8
+./GraphPartitioning 
+```
   
 ### Execution environment 
-Install glog <https://github.com/google/glog>, gflags <https://github.com/gflags/gflags/blob/master/INSTALL.md> and MQSim in Linux, my Ubuntu version is 20.04. 
+Install cmake <https://cmake.org/download/>, glog <https://github.com/google/glog>, gflags <https://github.com/gflags/gflags/blob/master/INSTALL.md> and MQSim in Linux, my Ubuntu version is 20.04. 
   
 ### Baseline operation 
 We compare the page replacements with `ne` method with two state-of-art storage format (CSR and Adj), based on <https://github.com/zongshenmu/GraphPartitioners>.  
+If you want to comment out one of the storage format in `graph.cpp` , please make sure the format marked in comments is active. Btw, the default is both active. 
 * `main.cpp` input:    
   ```c++
   int pnum = 30;
@@ -20,7 +28,7 @@ We compare the page replacements with `ne` method with two state-of-art storage 
       double balance_ratio = 1.05;
     string edgename = "/home/polon/Desktop/Master-Research/Datasets/com-youtube.ungraph.txt";
   ```
-  pnum is the partitioned chunks, memsize is the memory size for edge streaming methods, method is the choosed partitioner, lambda is for HDRF, balance_ratio is the edge counts deviating from the average, edgename is the absolute path for graph datasets. Our datasets is all cited from <https://snap.stanford.edu/data/index.html>.  
+  pnum is the partitioned chunks, memsize is the memory size for edge streaming methods, method is the choosed partitioner, lambda is for HDRF, balance_ratio is the edge counts deviating from the average, edgename is the absolute path for graph datasets. All of our datasets is cited from <https://snap.stanford.edu/data/index.html>.  
 * `memory.hpp` input:
   ```c++
     size_t channel = 32; 
@@ -55,7 +63,7 @@ We compare the page replacements with `ne` method with two state-of-art storage 
     LOG(INFO) << "Adj write times in trace: " << mem.write_times;
     LOG(INFO) << "Csr read times in trace: " << mem.read_times_2;
     LOG(INFO) << "Csr write times in trace: " << mem.write_times_2;
-    LOG(INFO) << "page_num: " << mem.page_num_cnt;
+    LOG(INFO) << "page number: " << mem.page_num_cnt;
 
     LOG(INFO) << "total partition time: " << total_time.get_time();
   ```
